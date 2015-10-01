@@ -50,7 +50,7 @@ client.get('statuses/user_timeline', params, function(error, tweets, response){
   }
 }); */
 
-client.stream('statuses/filter', {track: 'obama'}, function(stream) {
+client.stream('statuses/filter', {track: 'yoga'}, function(stream) {
   stream.on('data', function(tweet) {
     console.log(tweet.text);
     io.sockets.emit('tweetArrived',tweet);

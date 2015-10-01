@@ -1,5 +1,5 @@
-define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager"],
-    function(THREE, AtomManager, SceneManager) {
+define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager","threex"],
+    function(THREE, AtomManager, SceneManager, THREEX) {
         // start method
         function Atom() {
             this._initialize();
@@ -12,6 +12,7 @@ define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager"],
                 this.createAvatar();
                 this.direction = new THREE.Vector3(1,0,0);
                 this.velocity = Math.random()/2;
+                this.tweetData = null;
                 
                 AtomManager.addAtom(this);
             },
@@ -88,6 +89,10 @@ define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager"],
                 }
                 this.direction.copy(newDir) ;
             },
+            setTweetData: function(data){
+                this.tweetData = data;
+                console.log(data);
+            }
         }
         return Atom;
    })

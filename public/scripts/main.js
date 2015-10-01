@@ -10,6 +10,7 @@ function(THREE, Atom , CameraManager, io) {
 		atom.setRandomPosition();
 		atom.setRandomScale();
 		atom.setRandomDirection();
+		atom.setTweetData(data);
     });
 	
 	// for(var i = 0; i<1000 ; i++){

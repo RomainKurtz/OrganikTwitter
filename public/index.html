@@ -22,7 +22,8 @@ require.config({
     paths: {
         three: '../bower_components/three.js/build/three.min',
         trackballcontrols: '../bower_components/TrackballControls/index',
-        socketio: '/socket.io/socket.io'
+        socketio: '/socket.io/socket.io',
+        threex: '../bower_components/threex.objcoord/threex.objcoord'
     },
     shim: {
         three: {
@@ -35,6 +36,11 @@ require.config({
         socketio: {
             exports: 'io'
         },
+        threex: {
+            deps:['three'],
+            exports: 'THREEx'
+        }
+        
     }
 });
 </script>
