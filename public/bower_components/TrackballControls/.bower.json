@@ -1,0 +1,13 @@
+{
+  "name": "TrackballControls",
+  "_cacheHeaders": {
+    "Last-Modified": "Sat, 19 Sep 2015 21:25:29 GMT",
+    "Content-Length": "14330",
+    "Content-Type": "application/javascript; charset=utf-8"
+  },
+  "main": "index.js",
+  "_source": "http://threejs.org/examples/js/controls/TrackballControls.js",
+  "_target": "*",
+  "_originalSource": "http://threejs.org/examples/js/controls/TrackballControls.js",
+  "_direct": true
+}

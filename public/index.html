@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Organik Project</title>
+    <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
+    <style>
+			canvas { width: 100%; height: 100% }
+            body, html
+            {
+                margin: 0; padding: 0; height: 100%; overflow: hidden;
+            }
+
+            #content
+            {
+                position:absolute; left: 0; right: 0; bottom: 0; top: 0px; 
+            }
+		</style>
+</head>
+<script type="text/javascript">
+require.config({
+    paths: {
+        three: '../bower_components/three.js/build/three.min',
+        trackballcontrols: '../bower_components/TrackballControls/index',
+        socketio: '/socket.io/socket.io'
+    },
+    shim: {
+        three: {
+            exports: 'THREE'
+        },
+        trackballcontrols: {
+            deps: ['three'],
+            exports: 'TrackballControls'
+        },
+        socketio: {
+            exports: 'io'
+        },
+    }
+});
+</script>
+<script type="text/javascript" src="scripts/ga.js"> </script>
+
+<body>
+</body>
+
+</html>
