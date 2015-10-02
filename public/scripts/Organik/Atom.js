@@ -1,5 +1,5 @@
-define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager","threex"],
-    function(THREE, AtomManager, SceneManager, THREEX) {
+define("Organik/Atom", ["three","Organik/AtomManager", "Organik/Utilities", "Organik/SceneManager"],
+    function(THREE, AtomManager, Utilities, SceneManager) {
         // start method
         function Atom() {
             this._initialize();
@@ -13,11 +13,15 @@ define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager","t
                 this.direction = new THREE.Vector3(1,0,0);
                 this.velocity = Math.random()/2;
                 this.tweetData = null;
+                this.layer2D = null;
                 
                 AtomManager.addAtom(this);
             },
             renderTick : function(){
                this.behaviourUpdate();
+               if(this.layer2D){
+                   this._updateLayer2DPosition();
+               }
             },
             changePosition : function(newPos){
                 this.objectAvatar.position.set(newPos.x,newPos.y,newPos.z);
@@ -51,18 +55,12 @@ define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager","t
                 // end of next frame behaviour test
             },
             createAvatar : function(){
-
-                //var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-                // color = 0x00ff00;
-               // var geometry = new THREE.SphereGeometry( 0.5, 0.5, 0.5 );
-                //var material = new THREE.MeshBasicMaterial( {/*wireframe:true,*/ color: color } );
                 var map = THREE.ImageUtils.loadTexture( "../img/circle.png" );
                 var material = new THREE.SpriteMaterial( {
                     map: map,
 					color: Math.random() * 0x808008 + 0x808080,
 				} );
-                 this.objectAvatar = new THREE.Sprite( material );  
-                //this.objectAvatar = new THREE.Mesh( geometry, material );
+                this.objectAvatar = new THREE.Sprite( material );  
                 SceneManager.add( AtomManager.containerAtomsName , this.objectAvatar );
             },
             setRandomPosition :function(){
@@ -92,7 +90,23 @@ define("Organik/Atom", ["three","Organik/AtomManager", "Organik/SceneManager","t
             setTweetData: function(data){
                 this.tweetData = data;
                 console.log(data);
-            }
+            },
+            createLayer2D: function(){
+               this.layer2D	= document.createElement('div');
+               this.layer2D.id = 'tweet';
+	           document.body.appendChild(this.layer2D);
+	           this.layer2D.innerHTML	= this.tweetData.text;
+            },
+            _updateLayer2DPosition: function(){
+		      var position = Utilities.get2DPositionOf3DObject(this.objectAvatar);
+              var boundingRect= this.layer2D.getBoundingClientRect()
+              this.layer2D.style.left = (position.x - boundingRect.width/2) +'px';
+              this.layer2D.style.top = (position.y - boundingRect.height/2 - 70)+'px';
+            },
+            removeLayer2D:function(){
+                this.layer2D.parentNode.removeChild(this.layer2D);
+                this.layer2D = null;
+            },
         }
         return Atom;
    })

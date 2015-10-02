@@ -5,12 +5,13 @@ function(THREE, Atom , CameraManager, io) {
 	CameraManager.changeCameraPosition(new THREE.Vector3(-125,5,2.5));
 	var socket = io.connect('http://localhost:5000');
     socket.on('tweetArrived', function(data) {
-        //socket.emit('join', 'Hello World from client');
 		var atom = new Atom();
 		atom.setRandomPosition();
 		atom.setRandomScale();
 		atom.setRandomDirection();
 		atom.setTweetData(data);
+		atom.createLayer2D();
+		//atom.removeLayer2D();
     });
 	
 	// for(var i = 0; i<1000 ; i++){

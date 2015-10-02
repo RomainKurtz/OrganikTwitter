@@ -3,19 +3,8 @@
 
 <head>
     <title>Organik Project</title>
+    <link rel="stylesheet" type="text/css" href="./style/main.css">
     <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
-    <style>
-			canvas { width: 100%; height: 100% }
-            body, html
-            {
-                margin: 0; padding: 0; height: 100%; overflow: hidden;
-            }
-
-            #content
-            {
-                position:absolute; left: 0; right: 0; bottom: 0; top: 0px; 
-            }
-		</style>
 </head>
 <script type="text/javascript">
 require.config({
@@ -23,7 +12,8 @@ require.config({
         three: '../bower_components/three.js/build/three.min',
         trackballcontrols: '../bower_components/TrackballControls/index',
         socketio: '/socket.io/socket.io',
-        threex: '../bower_components/threex.objcoord/threex.objcoord'
+        threex: '../bower_components/threex.objcoord/threex.objcoord',
+        threeProjector: '../bower_components/three.js/examples/js/renderers/Projector'
     },
     shim: {
         three: {
@@ -36,8 +26,11 @@ require.config({
         socketio: {
             exports: 'io'
         },
+        threeProjector: {
+            deps: ['three'],
+        },
         threex: {
-            deps:['three'],
+            deps:['three','threeProjector'],
             exports: 'THREEx'
         }
         

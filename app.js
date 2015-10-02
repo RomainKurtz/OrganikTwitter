@@ -29,28 +29,26 @@
  var io = require('socket.io').listen(server);
  io.on('connection', function(){
     console.log('New Socket Client !'); 
+    //io.sockets.emit('tweetArrived','tweet');
     });
  
  
- var Twitter = require('twitter');
+var Twitter = require('twitter');
  
 var client = new Twitter({
-  consumer_key: '',
-  consumer_secret: '',
-  access_token_key: '',
-  access_token_secret: ''
+ 
 });
  
  
- /* get the user TimeLine
-var params = {screen_name: 'kurtzRomain'};
-client.get('statuses/user_timeline', params, function(error, tweets, response){
-  if (!error) {
-    console.log(tweets);
-  }
-}); */
+//  //get the user TimeLine
+// var params = {screen_name: 'kurtzRomain'};
+// client.get('statuses/user_timeline', params, function(error, tweets, response){
+//   if (!error) {
+//     console.log(tweets);
+//   }
+// }); 
 
-client.stream('statuses/filter', {track: 'yoga'}, function(stream) {
+client.stream('statuses/filter', {track: 'test twitter'}, function(stream) {
   stream.on('data', function(tweet) {
     console.log(tweet.text);
     io.sockets.emit('tweetArrived',tweet);
@@ -58,5 +56,5 @@ client.stream('statuses/filter', {track: 'yoga'}, function(stream) {
  
   stream.on('error', function(error) {
     throw error;
-  });
+  }); 
 });
