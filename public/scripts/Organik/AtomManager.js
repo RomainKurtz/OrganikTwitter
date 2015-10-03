@@ -25,7 +25,7 @@ define("Organik/AtomManager", ["three", "Organik/Atom", "Organik/RenderManager",
                 this.atomList.push(atom);
             },
             renderAtomsManager: function(iMe) {
-                //SceneManager.getSceneContainer(iMe.containerAtomsName).rotation.y +=0.01;
+                //SceneManager.getSceneContainer(iMe.containerAtomsName).rotation.y +=0.001;
                 iMe.renderAtoms();
             },
             renderAtoms: function() {

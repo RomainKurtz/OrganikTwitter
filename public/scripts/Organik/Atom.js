@@ -9,12 +9,12 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             _initialize: function() {
                 // define variable
                 this.objectAvatar = null;
-                this.createAvatar();
                 this.direction = new THREE.Vector3(1, 0, 0);
                 this.velocity = Math.random() / 2;
                 this.tweetData = null;
                 this.layer2D = null;
 
+                this.createAvatar();
                 AtomManager.addAtom(this);
             },
             renderTick: function() {
@@ -32,14 +32,14 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             changeVelocity: function(newVelocity) {
                 this.velocity = newVelocity;
             },
+            changeScale: function(scale) {
+                this.objectAvatar.scale.x = scale;
+                this.objectAvatar.scale.y = scale;
+                this.objectAvatar.scale.z = scale;
+            },
             behaviourUpdate: function() {
-
-                // this.objectAvatar.rotation.x += this.velocity;
-                // this.objectAvatar.rotation.y += this.velocity/2;
-
                 // move object
                 this.objectAvatar.translateOnAxis(this.direction, this.velocity);
-
 
                 // next frame behaviour test
                 var positionAtomNextFrame = this.objectAvatar.position.clone();
@@ -75,9 +75,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 var min = 0.1;
                 var max = 1;
                 var scale = Math.random() * (max - min + 1) + min;
-                this.objectAvatar.scale.x = scale;
-                this.objectAvatar.scale.y = scale;
-                this.objectAvatar.scale.z = scale;
+                this.changeScale(scale);
             },
             setRandomDirection: function() {
                 var axis = ['x', 'y', 'z'];
@@ -89,19 +87,15 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             },
             setTweetData: function(data) {
                 this.tweetData = data;
-                console.log(data);
                 this.treatTweetData();
             },
             treatTweetData: function() {
-
                 //Atom Scale = Retweet
                 var scale = this.tweetData.retweet_count;
                 if (scale === 0) {
                     scale = 0.3;
                 }
-                this.objectAvatar.scale.x = scale;
-                this.objectAvatar.scale.y = scale;
-                this.objectAvatar.scale.z = scale;
+                this.changeScale(scale);
 
                 //Atom Velocity = Favorite
                 var velocity = this.tweetData.favorite_count;
@@ -126,11 +120,18 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             addMouseInteraction: function() {
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseover', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);
+                    var scale = 3;//atom.objectAvatar.scale.x * 3;
+                    atom.changeScale(scale)
                     atom.createLayer2D();
                 });
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseout', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);
+                    atom.treatTweetData();
                     atom.removeLayer2D();
+                });
+                Utilities.createEventOn3DObject(this.objectAvatar, 'click', function(req) {
+                    var atom = AtomManager.getAtomBy3DObject(req.target);
+                    console.log(atom.tweetData);
                 });
             }
         }
