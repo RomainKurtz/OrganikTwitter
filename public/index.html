@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Organik Project</title>
+    <title>Organik Twitter Project</title>
     <link rel="stylesheet" type="text/css" href="./style/main.css">
     <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
 </head>
@@ -12,7 +12,8 @@ require.config({
         three: '../bower_components/three.js/build/three.min',
         trackballcontrols: '../bower_components/TrackballControls/index',
         socketio: '/socket.io/socket.io',
-        threex: '../bower_components/threex.objcoord/threex.objcoord',
+        threexObjcoord: '../bower_components/threex.objcoord/threex.objcoord',
+        threexDomevents: '../bower_components/threex.domevents/threex.domevents',
         threeProjector: '../bower_components/three.js/examples/js/renderers/Projector'
     },
     shim: {
@@ -29,8 +30,12 @@ require.config({
         threeProjector: {
             deps: ['three'],
         },
-        threex: {
+        threexObjcoord: {
             deps:['three','threeProjector'],
+            exports: 'THREEx'
+        },
+        threexDomevents: {
+            deps:['three'],
             exports: 'THREEx'
         }
         
