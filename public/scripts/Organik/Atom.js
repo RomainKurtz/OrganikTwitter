@@ -1,7 +1,8 @@
 define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Organik/SceneManager"],
     function(THREE, AtomManager, Utilities, SceneManager) {
         // start method
-        function Atom() {
+        function Atom(tweet) {
+            this.tweetData = tweet;
             this._initialize();
         }
         // public method
@@ -11,10 +12,10 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.objectAvatar = null;
                 this.direction = new THREE.Vector3(1, 0, 0);
                 this.velocity = Math.random() / 2;
-                this.tweetData = null;
-                this.layer2D = null;
 
+                this.layer2D = null;
                 this.createAvatar();
+                this.treatTweetData();
                 AtomManager.addAtom(this);
             },
             renderTick: function() {
@@ -36,6 +37,13 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.objectAvatar.scale.x = scale;
                 this.objectAvatar.scale.y = scale;
                 this.objectAvatar.scale.z = scale;
+            },
+            _treatTweetScale: function() {
+                var scale = this.tweetData.retweet_count;
+                if (scale === 0) {
+                    scale = 0.3;
+                }
+                this.changeScale(scale);
             },
             behaviourUpdate: function() {
                 // move object
@@ -90,16 +98,13 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.treatTweetData();
             },
             treatTweetData: function() {
-                //Atom Scale = Retweet
-                var scale = this.tweetData.retweet_count;
-                if (scale === 0) {
-                    scale = 0.3;
-                }
-                this.changeScale(scale);
+
+                this._treatTweetScale();
 
                 //Atom Velocity = Favorite
-                var velocity = this.tweetData.favorite_count;
+                var velocity = this.tweetData.favorite_count / 10;
                 this.changeVelocity(velocity);
+
             },
             createLayer2D: function() {
                 this.layer2D = document.createElement('div');
@@ -120,13 +125,12 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             addMouseInteraction: function() {
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseover', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);
-                    var scale = 3;//atom.objectAvatar.scale.x * 3;
-                    atom.changeScale(scale)
+                    atom.changeScale(atom.objectAvatar.scale.x * 1.5)
                     atom.createLayer2D();
                 });
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseout', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);
-                    atom.treatTweetData();
+                    atom._treatTweetScale();
                     atom.removeLayer2D();
                 });
                 Utilities.createEventOn3DObject(this.objectAvatar, 'click', function(req) {

@@ -1,5 +1,5 @@
-define("Organik/AtomManager", ["three", "Organik/Atom", "Organik/RenderManager", "Organik/SceneManager"],
-    function(THREE, Atom, RenderManager, SceneManager) {
+define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneManager", "Organik/LinkManager"],
+    function(THREE, RenderManager, SceneManager, LinkManager) {
         var instance = null;
 
         function AtomManager() {
@@ -23,6 +23,7 @@ define("Organik/AtomManager", ["three", "Organik/Atom", "Organik/RenderManager",
             },
             addAtom: function(atom) {
                 this.atomList.push(atom);
+                //LinkManager.updateLinksTable(this.atomList);
             },
             renderAtomsManager: function(iMe) {
                 //SceneManager.getSceneContainer(iMe.containerAtomsName).rotation.y +=0.001;
@@ -41,6 +42,14 @@ define("Organik/AtomManager", ["three", "Organik/Atom", "Organik/RenderManager",
             getAtomBy3DObject: function(object3D) {
                 for (var i = 0; i < this.atomList.length; i++) {
                     if (this.atomList[i].objectAvatar.id === object3D.id) {
+                        return this.atomList[i];
+                    }
+                }
+                return null;
+            },
+            getAtombyTweetID: function(ID){
+                for (var i = 0; i < this.atomList.length; i++) {
+                    if (this.atomList[i].tweetData.id === ID) {
                         return this.atomList[i];
                     }
                 }

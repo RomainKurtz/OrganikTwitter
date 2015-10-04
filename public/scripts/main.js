@@ -16,11 +16,11 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio"],
         });
 
         function createAtom(data) {
-            var atom = new Atom();
+            var atom = new Atom(data);
             atom.setRandomPosition();
             //atom.setRandomScale();
             atom.setRandomDirection();
-            atom.setTweetData(data);
+            //atom.setTweetData(data);
             //atom.createLayer2D();
             atom.addMouseInteraction();
         }

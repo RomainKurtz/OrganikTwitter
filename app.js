@@ -38,6 +38,9 @@
 // Put your twitter api id here
  var client = new Twitter({
      
+     
+     
+     
  });
 
 
@@ -55,9 +58,12 @@
  //var params = {q: 'Dassault+Systemes since:2015-10-02', count: '100'};
  //var params = {q: 'Francois+Hollande since:2015-10-02', count: '100'};
 
- twitter_word_to_search = 'michel+et+augustin'
+var twitter_word_to_search = 'michel+et+augustin';
+//var twitter_word_to_search = 'Francois+Hollande';
+ //var twitter_word_to_search = '#jefaisdestestsaveclapi';
+// var twitter_word_to_search = '#republique';
  var params = {
-     q: twitter_word_to_search + ' since:2015-10-02',
+     q: twitter_word_to_search + ' since:2015-10-04',
      count: '100'
  };
 
@@ -73,7 +79,6 @@
              for (var i = 0; i < tweets.statuses.length; i++) {
                  tabOfTweet.push(tweets.statuses[i])
              };
-
              if (tweets.search_metadata.next_results) {
                  param.max_id = getURLParameter('max_id', tweets.search_metadata.next_results)
                  console.log('next_results');

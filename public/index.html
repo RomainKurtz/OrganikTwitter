@@ -17,26 +17,17 @@ require.config({
         threeProjector: '../bower_components/three.js/examples/js/renderers/Projector'
     },
     shim: {
-        three: {
-            exports: 'THREE'
-        },
         trackballcontrols: {
-            deps: ['three'],
-            exports: 'TrackballControls'
-        },
-        socketio: {
-            exports: 'io'
+            deps: ['three']
         },
         threeProjector: {
             deps: ['three'],
         },
         threexObjcoord: {
-            deps:['three','threeProjector'],
-            exports: 'THREEx'
+            deps:['three','threeProjector']
         },
         threexDomevents: {
-            deps:['three'],
-            exports: 'THREEx'
+            deps:['three']
         }
         
     }
