@@ -26,3 +26,57 @@ body, html
     /*background: #125ff4;*/
     color: red;
 }
+
+.message {
+    /*margin-top:-80px;*/
+    padding:5px;
+    border-radius:3px;
+    box-shadow:0 0 2px rgba(0,0,0,.5);  
+	border	: 0;
+	height	: 30px;
+	overflow	: hidden;
+	position	: absolute;
+	text-align : center;
+	color : #09C;
+	background: rgba(170, 170, 170, 0.168627);
+    opacity:1;
+    /*
+    -webkit-transform:scale(0) rotate(-12deg);
+	-ms-transform: scale(0) rotate(-12deg); /* IE 9 */ 
+
+    -webkit-transition:  .25s; /* For Safari 3.1 to 6.0 */
+    transition: opacity .25s;
+    
+    /*IF YOU CHANGE THE ANIMATION DURATION BE CAREFULL OF THE VALUE 
+    IN THE SetTimeout in the removeLayer2D() IN Atom.js*/
+    -webkit-animation-name: fadeIn; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: .25s; /* Chrome, Safari, Opera */
+    animation-name: fadeIn;
+    animation-duration: .25s;
+}
+
+
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Standard syntax */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+/* Standard syntax */
+@keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}

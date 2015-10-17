@@ -43,7 +43,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 if (scale === 0) {
                     scale = 0.3;
                 }
-                this.changeScale(scale);
+                this.changeScale(scale/100);
             },
             behaviourUpdate: function() {
                 // move object
@@ -107,10 +107,12 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
 
             },
             createLayer2D: function() {
-                this.layer2D = document.createElement('div');
-                this.layer2D.id = 'tweet';
-                document.body.appendChild(this.layer2D);
-                this.layer2D.innerHTML = this.tweetData.text;
+                if(!this.layer2D){
+                    this.layer2D = document.createElement('div')
+                    document.body.appendChild(this.layer2D);
+                    this.layer2D.innerHTML = this.tweetData.text;
+                    this.layer2D.className = 'message'; 
+                }     
             },
             _updateLayer2DPosition: function() {
                 var position = Utilities.get2DPositionOf3DObject(this.objectAvatar);
@@ -119,8 +121,15 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.layer2D.style.top = (position.y - boundingRect.height / 2 - 70) + 'px';
             },
             removeLayer2D: function() {
-                this.layer2D.parentNode.removeChild(this.layer2D);
-                this.layer2D = null;
+                if(this.layer2D){
+                    setTimeout(function () {
+                        this.layer2D.parentNode.removeChild(this.layer2D);
+                        this.layer2D = null;
+                    }.bind(this),300);
+                    this.layer2D.style.animationName = "fadeOut";
+                    this.layer2D.style.opacity ='0';
+                }
+                
             },
             addMouseInteraction: function() {
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseover', function(req) {
