@@ -110,7 +110,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 if(!this.layer2D){
                     this.layer2D = document.createElement('div')
                     document.body.appendChild(this.layer2D);
-                    this.layer2D.innerHTML = this.tweetData.text;
+                    this.layer2D.innerHTML = '<img src=\"'+this.tweetData.user.profile_image_url+'\"/> '+ this.tweetData.text;
                     this.layer2D.className = 'message'; 
                 }     
             },
@@ -118,7 +118,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 var position = Utilities.get2DPositionOf3DObject(this.objectAvatar);
                 var boundingRect = this.layer2D.getBoundingClientRect()
                 this.layer2D.style.left = (position.x - boundingRect.width / 2) + 'px';
-                this.layer2D.style.top = (position.y - boundingRect.height / 2 - 70) + 'px';
+                this.layer2D.style.top = (position.y - boundingRect.height / 2 - 50) + 'px';
             },
             removeLayer2D: function() {
                 if(this.layer2D){
