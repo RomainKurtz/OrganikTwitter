@@ -1,5 +1,5 @@
-define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Organik/SceneManager"],
-    function(THREE, AtomManager, Utilities, SceneManager) {
+define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Organik/SceneManager", "Organik/AtomUI"],
+    function(THREE, AtomManager, Utilities, SceneManager, AtomUI) {
         // start method
         function Atom(tweet) {
             this.tweetData = tweet;
@@ -12,7 +12,8 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.objectAvatar = null;
                 this.direction = new THREE.Vector3(1, 0, 0);
                 this.velocity = Math.random() / 2;
-
+                
+                this.atomUI = new AtomUI();
                 this.layer2D = null;
                 this.createAvatar();
                 this.treatTweetData();
@@ -20,7 +21,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             },
             renderTick: function() {
                 this.behaviourUpdate();
-                if (this.layer2D) {
+                if (this.atomUI.UIisActive()) {
                     this._updateLayer2DPosition();
                 }
             },
@@ -107,27 +108,23 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
 
             },
             createLayer2D: function() {
-                if(!this.layer2D){
-                    this.layer2D = document.createElement('div')
-                    document.body.appendChild(this.layer2D);
-                    this.layer2D.innerHTML = '<img src=\"'+this.tweetData.user.profile_image_url+'\"/> '+ this.tweetData.text;
-                    this.layer2D.className = 'message'; 
-                }     
+                if(!this.atomUI.UIisActive()){
+                    var dataUI = {
+                        userName : '',
+                        img : this.tweetData.user.profile_image_url,
+                        text : this.tweetData.text
+                    }  
+                    this.atomUI.createUI(dataUI);
+                }
+
             },
             _updateLayer2DPosition: function() {
                 var position = Utilities.get2DPositionOf3DObject(this.objectAvatar);
-                var boundingRect = this.layer2D.getBoundingClientRect()
-                this.layer2D.style.left = (position.x - boundingRect.width / 2) + 'px';
-                this.layer2D.style.top = (position.y - boundingRect.height / 2 - 50) + 'px';
+                this.atomUI.setPosition(position);
             },
             removeLayer2D: function() {
-                if(this.layer2D){
-                    setTimeout(function () {
-                        this.layer2D.parentNode.removeChild(this.layer2D);
-                        this.layer2D = null;
-                    }.bind(this),300);
-                    this.layer2D.style.animationName = "fadeOut";
-                    this.layer2D.style.opacity ='0';
+                if(this.atomUI.UIisActive()){
+                    this.atomUI.deleteUI();
                 }
                 
             },
