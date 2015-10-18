@@ -29,17 +29,18 @@ body, html
 
 .message {
     /*margin-top:-80px;*/
-    padding:5px;
+    padding:15px;
     border-radius:3px;
     box-shadow:0 0 2px rgba(0,0,0,.5);  
 	border	: 0;
-	height	: 30px;
+	height	: 50px;
 	overflow	: hidden;
 	position	: absolute;
 	text-align : center;
 	color : #09C;
 	background: rgba(170, 170, 170, 0.168627);
     opacity:1;
+    font-family: Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
     /*
     -webkit-transform:scale(0) rotate(-12deg);
 	-ms-transform: scale(0) rotate(-12deg); /* IE 9 */ 
@@ -53,6 +54,9 @@ body, html
     -webkit-animation-duration: .25s; /* Chrome, Safari, Opera */
     animation-name: fadeIn;
     animation-duration: .25s;
+}
+.message img {
+    vertical-align:middle;
 }
 
 
