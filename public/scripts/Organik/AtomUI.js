@@ -1,5 +1,5 @@
-define("Organik/AtomUI", [],
-    function() {
+define("Organik/AtomUI", ["Organik/Animation"],
+    function(Animation) {
         // start method
         function AtomUI() {
             this._initialize();
@@ -11,34 +11,54 @@ define("Organik/AtomUI", [],
 				this.divImgUrl = null;
 				this.divUserName = null;
 				this.divText = null;
+				
+				this.divIsCreate = false
 				this.divIsActive = false;
 			},
 			createUI: function(param){
-				this.divImgUrl = param.img;
-				this.divUserName = param.userName;
-				this.divText = param.text;
-				this.domElement = document.createElement('div')
-                document.body.appendChild(this.domElement);
-				this.domElement.innerHTML = '<img src=\"'+ this. divImgUrl +'\"/> '+ this.divText;
-				this.domElement.className = 'message';
-				 
-				this.divIsActive = true;
+				if(this.UICreated()){
+					this.deleteUI();
+				}
+				if(!this.UICreated()){
+					this.divImgUrl = param.img;
+					this.divUserName = param.userName;
+					this.divText = param.text;
+					this.domElement = document.createElement('div')
+					document.body.appendChild(this.domElement);
+					this.domElement.innerHTML = '<img src=\"'+ this. divImgUrl +'\"/> '+ this.divText;
+					this.domElement.className = 'message';
+					
+					this.divIsCreate = true; 
+					this.divIsActive = true;
+				}
 				
 			},
 			deleteUI: function(){
-				setTimeout(function () {
-                        this.domElement.parentNode.removeChild(this.domElement);
-                        this.domElement = null;
-                    }.bind(this),300);
-                    this.domElement.style.animationName = "fadeOut";
-                    this.domElement.style.opacity ='0';
-				this.divIsActive = false;
+				if(this.divIsCreate){
+					Animation.setTimeout(function () {
+						if(this.domElement){
+							this.domElement.parentNode.removeChild(this.domElement);
+							this.domElement = null;
+							this.divIsCreate = false;
+							this.divIsActive = false;
+							}
+						}.bind(this),300);
+					this.domElement.style.animationName = "fadeOut";
+					this.domElement.style.opacity ='0';
+					
+				}
 			},
 			showUI: function(){
-				
+				if(this.UICreated() && !this.UIActive()){
+					// TODO Display div
+					this.divIsActive = true;
+				}
 			},
 			hideUI: function(){
-				
+				if(this.UICreated() && this.UIActive()){
+					//TODO Hide div
+					this.divIsActive = false;
+				}
 			},
 			setPosition: function(position){
 				var boundingRect = this.domElement.getBoundingClientRect();
@@ -47,8 +67,11 @@ define("Organik/AtomUI", [],
 				this.domElement.style.left = left + 'px';
 				this.domElement.style.top = top + 'px';
 			},
-			UIisActive: function(){
+			UIActive: function(){
 				return this.divIsActive;
+			},
+			UICreated: function(){
+				return this.divIsCreate;
 			}
 			
 		}

@@ -14,14 +14,13 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.velocity = Math.random() / 2;
                 
                 this.atomUI = new AtomUI();
-                this.layer2D = null;
                 this.createAvatar();
                 this.treatTweetData();
                 AtomManager.addAtom(this);
             },
             renderTick: function() {
                 this.behaviourUpdate();
-                if (this.atomUI.UIisActive()) {
+                if (this.atomUI.UIActive()) {
                     this._updateLayer2DPosition();
                 }
             },
@@ -44,7 +43,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 if (scale === 0) {
                     scale = 0.3;
                 }
-                this.changeScale(scale/100);
+                this.changeScale(scale/500);
             },
             behaviourUpdate: function() {
                 // move object
@@ -108,14 +107,12 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
 
             },
             createLayer2D: function() {
-                if(!this.atomUI.UIisActive()){
-                    var dataUI = {
-                        userName : '',
-                        img : this.tweetData.user.profile_image_url,
-                        text : this.tweetData.text
-                    }  
-                    this.atomUI.createUI(dataUI);
-                }
+                var dataUI = {
+                    userName : '',
+                    img : this.tweetData.user.profile_image_url,
+                    text : this.tweetData.text
+                }  
+                this.atomUI.createUI(dataUI);
 
             },
             _updateLayer2DPosition: function() {
@@ -123,9 +120,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.atomUI.setPosition(position);
             },
             removeLayer2D: function() {
-                if(this.atomUI.UIisActive()){
                     this.atomUI.deleteUI();
-                }
                 
             },
             addMouseInteraction: function() {
