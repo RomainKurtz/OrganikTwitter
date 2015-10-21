@@ -17,12 +17,31 @@ define("Organik/Animation", ["three", "tweenjs", "Organik/RenderManager"],
             renderAnimation: function(iMe){
                 TWEEN.update();
             },
+            //Function to execute something (callback : function) after a delay (timeout : ms)
             setTimeout: function(callback, timeout){
-                var tween = new TWEEN.Tween()
-                .to({ },timeout)
+                new TWEEN.Tween()
+                .to({},timeout)
                 .onComplete(function() {
                     callback();
                 })
+                .start();
+            },
+            createAnimation: function(variablesStart, variableEnd, duration, easing, onUpdate, onComplete){
+                //graph : http://sole.github.io/tween.js/examples/03_graphs.html
+                
+                if(!onUpdate){onUpdate = function(){}};
+                if(!onComplete){onComplete = function(){}};
+                if(!easing){ easing = TWEEN.Easing.Linear.None}
+                else{
+                    var path = easing.split('.');
+                    easing = TWEEN.Easing[path[0]][path[1]];
+                };
+                
+                new TWEEN.Tween(variablesStart)
+                .to( variableEnd , duration)
+                .easing(easing)
+                .onUpdate(function() {onUpdate()})
+                .onComplete(function() {onComplete()})
                 .start();
             }
         };

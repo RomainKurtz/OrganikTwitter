@@ -1,6 +1,7 @@
 /* global requirejs */
-requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio"],
-    function(THREE, Atom, CameraManager, io) {
+requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIManager"],
+    function(THREE, Atom, CameraManager, io, UIManager) {
+        
 
         CameraManager.changeCameraPosition(new THREE.Vector3(-125, 5, 2.5));
 

@@ -1,5 +1,5 @@
-define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Organik/SceneManager", "Organik/AtomUI"],
-    function(THREE, AtomManager, Utilities, SceneManager, AtomUI) {
+define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Organik/SceneManager", "Organik/AtomUI", "Organik/Animation"],
+    function(THREE, AtomManager, Utilities, SceneManager, AtomUI, Animation) {
         // start method
         function Atom(tweet) {
             this.tweetData = tweet;
@@ -12,6 +12,8 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.objectAvatar = null;
                 this.direction = new THREE.Vector3(1, 0, 0);
                 this.velocity = Math.random() / 2;
+                this.highlighted = false;
+                this.objectAvatarHighlight = null;
                 
                 this.atomUI = new AtomUI();
                 this.createAvatar();
@@ -23,7 +25,13 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 if (this.atomUI.UIActive()) {
                     this._updateLayer2DPosition();
                 }
+                if(this.objectAvatarHighlight){
+                    this.renderUpdateHighlightAvatar();
+                }
             },
+            /*
+            * Set Position/Scale/Direction/Velocity 
+            */
             changePosition: function(newPos) {
                 this.objectAvatar.position.set(newPos.x, newPos.y, newPos.z);
             },
@@ -34,17 +42,13 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.velocity = newVelocity;
             },
             changeScale: function(scale) {
-                this.objectAvatar.scale.x = scale;
-                this.objectAvatar.scale.y = scale;
-                this.objectAvatar.scale.z = scale;
+                 this.objectAvatar.scale.x = scale;
+                 this.objectAvatar.scale.y = scale;
+                 this.objectAvatar.scale.z = scale;
             },
-            _treatTweetScale: function() {
-                var scale = this.tweetData.retweet_count;
-                if (scale === 0) {
-                    scale = 0.3;
-                }
-                this.changeScale(scale/500);
-            },
+            /*
+            * Behaviour Part
+            */
             behaviourUpdate: function() {
                 // move object
                 this.objectAvatar.translateOnAxis(this.direction, this.velocity);
@@ -62,8 +66,11 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 }
                 // end of next frame behaviour test
             },
+            /*
+            * Avatar Part
+            */
             createAvatar: function() {
-                var map = THREE.ImageUtils.loadTexture("../img/circle.png");
+                var map = THREE.ImageUtils.loadTexture("../img/atom.png");
                 var material = new THREE.SpriteMaterial({
                     map: map,
                     color: Math.random() * 0x808008 + 0x808080,
@@ -71,6 +78,9 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.objectAvatar = new THREE.Sprite(material);
                 SceneManager.add(AtomManager.containerAtomsName, this.objectAvatar);
             },
+            /*
+            * Random Position/Scale/Direction 
+            */
             setRandomPosition: function() {
                 var axis = ['x', 'y', 'z'];
                 var newPos = new THREE.Vector3();
@@ -93,19 +103,31 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 }
                 this.direction.copy(newDir);
             },
+            /*
+            * Twitter Part 
+            */
+            _computeTweetScale: function() {
+                var scale = this.tweetData.retweet_count;
+                if (scale === 0) {
+                    //scale = 0.3;
+                    scale = 100;
+                }
+                return scale/100;
+            },
             setTweetData: function(data) {
                 this.tweetData = data;
                 this.treatTweetData();
             },
             treatTweetData: function() {
 
-                this._treatTweetScale();
-
+                this.changeScale(this._computeTweetScale());
                 //Atom Velocity = Favorite
                 var velocity = this.tweetData.favorite_count / 10;
                 this.changeVelocity(velocity);
-
             },
+            /*
+            * AtomUI 
+            */
             createLayer2D: function() {
                 var dataUI = {
                     userName : '',
@@ -113,7 +135,6 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                     text : this.tweetData.text
                 }  
                 this.atomUI.createUI(dataUI);
-
             },
             _updateLayer2DPosition: function() {
                 var position = Utilities.get2DPositionOf3DObject(this.objectAvatar);
@@ -121,18 +142,67 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             },
             removeLayer2D: function() {
                     this.atomUI.deleteUI();
-                
             },
+            /*
+            * Highlight 
+            */
+            highlightEnter: function(){
+                //scale up atom
+                var newScale = this._computeTweetScale() * 1.5;
+                var start = this.objectAvatar.scale;
+                var end = {x : newScale, y : newScale, z : newScale}
+                Animation.createAnimation(start, end, 500, 'Elastic.Out');
+                
+                this.createLayer2D();
+                this.createHighlightAvatar();
+                
+                this.highlighted = true;
+            },
+            highlightExit: function(){
+                //scale atom this original size
+                var newScale = this._computeTweetScale();
+                var start = this.objectAvatar.scale;
+                var end = {x : newScale, y : newScale, z : newScale}
+                Animation.createAnimation(start, end, 500, 'Elastic.Out');
+                
+                this.removeLayer2D();
+                this.deleteHighlightAvatar();
+                
+                this.highlighted = false;
+            },
+            isHighlighted: function(){
+                return this.highlighted;
+            },
+            createHighlightAvatar: function(){
+                var AvatarScale = 1.5;
+                var map = THREE.ImageUtils.loadTexture("../img/highlight.png");
+                var material = new THREE.SpriteMaterial({
+                    map: map,
+                    // color: Math.random() * 0x808008 + 0x808080,
+                    color: this.objectAvatar.material.color,
+                });
+                this.objectAvatarHighlight = new THREE.Sprite(material);
+                this.objectAvatar.add(this.objectAvatarHighlight);
+                this.objectAvatarHighlight.scale.set(AvatarScale,AvatarScale,AvatarScale);
+            },
+            deleteHighlightAvatar: function(){
+                this.objectAvatar.remove(this.objectAvatarHighlight);
+                this.objectAvatarHighlight = null;
+            },
+            renderUpdateHighlightAvatar: function(){
+                this.objectAvatarHighlight.material.rotation -=.02;
+            },
+            /*
+            * Interactions
+            */
             addMouseInteraction: function() {
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseover', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);
-                    atom.changeScale(atom.objectAvatar.scale.x * 1.5)
-                    atom.createLayer2D();
+                    atom.highlightEnter();
                 });
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseout', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);
-                    atom._treatTweetScale();
-                    atom.removeLayer2D();
+                    atom.highlightExit();
                 });
                 Utilities.createEventOn3DObject(this.objectAvatar, 'click', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);

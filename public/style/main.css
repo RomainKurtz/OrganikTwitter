@@ -27,20 +27,51 @@ body, html
     color: red;
 }
 
+#black{
+ background-color: rgba(24, 25, 25, 0.53);
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+#footer span{
+    display: inline-block;
+     margin:5px 5px 0 0;
+    padding:5px 10px
+}
+#footerElement {
+    position	: center;
+	text-align : center;
+    width: 50%;
+}
+#search {
+    display: none;
+    margin-bottom: 0px;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+}
+
 .message {
     /*margin-top:-80px;*/
-    padding:15px;
     border-radius:3px;
+    padding-left: 20px;
+    padding-right: 20px;
     box-shadow:0 0 2px rgba(0,0,0,.5);  
 	border	: 0;
-	height	: 50px;
+    margin: 0 auto;
+	height	: 80px;
+    line-height: 80px;
 	overflow	: hidden;
 	position	: absolute;
 	text-align : center;
-	color : #09C;
+	color : #fff;
 	background: rgba(170, 170, 170, 0.168627);
     opacity:1;
-    font-family: Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-family: "Roboto", sans-serif;
+     display: inline-block;
     /*
     -webkit-transform:scale(0) rotate(-12deg);
 	-ms-transform: scale(0) rotate(-12deg); /* IE 9 */ 
@@ -51,12 +82,17 @@ body, html
     /*IF YOU CHANGE THE ANIMATION DURATION BE CAREFULL OF THE VALUE 
     IN THE SetTimeout in the removeLayer2D() IN Atom.js*/
     -webkit-animation-name: fadeIn; /* Chrome, Safari, Opera */
-    -webkit-animation-duration: .25s; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: .5s; /* Chrome, Safari, Opera */
     animation-name: fadeIn;
-    animation-duration: .25s;
+    animation-duration: .5s;
 }
 .message img {
     vertical-align:middle;
+    width: 48px;
+	height: 48px;
+	border-radius: 24px;
+	-webkit-border-radius: 24px;
+	-moz-border-radius: 24px;
 }
 
 

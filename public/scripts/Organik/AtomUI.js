@@ -60,10 +60,10 @@ define("Organik/AtomUI", ["Organik/Animation"],
 					this.divIsActive = false;
 				}
 			},
-			setPosition: function(position){
+			setPosition: function(position2D){
 				var boundingRect = this.domElement.getBoundingClientRect();
-                var left = (position.x - boundingRect.width / 2) ;
-                var top = (position.y - boundingRect.height / 2 - 50) ;
+                var left = (position2D.x - boundingRect.width / 2) ;
+                var top = (position2D.y - boundingRect.height / 2 - 50) ;
 				this.domElement.style.left = left + 'px';
 				this.domElement.style.top = top + 'px';
 			},
