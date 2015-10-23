@@ -8,6 +8,7 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
                 for (var i = 0; i < data.length; i++) {
                     createAtom(data[i]);
                 }
+                Materialize.toast(data.length + ' tweets added', 4000)
             } else {
                 createAtom(data);
             }

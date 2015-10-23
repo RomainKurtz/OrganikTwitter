@@ -7,10 +7,9 @@
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import Materialize - Not work with AMD for now-->
-    <link type="text/css" rel="stylesheet" href="./bower_components/Materialize/dist/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="./bower_components/Materialize/dist/css/materialize.min.css" media="screen,projection" />
     <script src="./bower_components/jquery/dist/jquery.min.js"></script>
     <script src="./bower_components/Materialize/dist/js/materialize.min.js"></script>
-    
     <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
 </head>
 <script type="text/javascript">
@@ -22,7 +21,7 @@ require.config({
         threexObjcoord: '../bower_components/threex.objcoord/threex.objcoord',
         threexDomevents: '../bower_components/threex.domevents/threex.domevents',
         threeProjector: '../bower_components/three.js/examples/js/renderers/Projector',
-        tweenjs : '../bower_components/tween.js/src/Tween',
+        tweenjs: '../bower_components/tween.js/src/Tween',
     },
     shim: {
         trackballcontrols: {
@@ -32,21 +31,34 @@ require.config({
             deps: ['three'],
         },
         threexObjcoord: {
-            deps:['three','threeProjector']
+            deps: ['three', 'threeProjector']
         },
         threexDomevents: {
-            deps:['three']
+            deps: ['three']
         }
     }
 });
 </script>
-<script type="text/javascript" src="scripts/ga.js"> </script>
+<script type="text/javascript" src="scripts/ga.js">
+</script>
 
 <body>
     <div id="footer">
         <span><a class="waves-effect waves-light btn black"  onclick="Materialize.toast('I am a toast', 4000)">#LeonardodaVinci</a></span>
         <span><a class="waves-effect waves-light btn black"  onclick="Materialize.toast('I am a toast', 4000)">#RetourVersLeFutur</a></span>
-        <span><a class="waves-effect waves-light btn black"  onclick="Materialize.toast('I am a toast', 4000)">#javascript</a></span>
+        <span><a class="waves-effect waves-light btn modal-trigger black" data-target="modalTweet" onclick="$('div.lean-overlay:last').remove();">#javascript</a>
+<!-- Modal tweet -->
+  <div id="modalTweet" class="modal modalTweet">
+    <div class="modal-content">
+      </div>
+    <div class="modal-footer">
+      <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>Github</a>
+      <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>About</a>
+    </div>
+  </div> 
+  <!--  $('div#lean-overlay:last').remove(); -->
+   <!-- End of Modal tweet -->
+        </span>
         <span><a class="waves-effect waves-light btn modal-trigger black" data-target="modalSettings"><i class="material-icons left">settings</i>Settings</a></span>
         <span>  
             <li>
@@ -55,69 +67,79 @@ require.config({
                 </a>
             </li>  
         </span>
-        <div id="search" class="row white-text grey darken-3" >
+        <div id="search" class="row white-text grey darken-3">
             <div class="container">
                 <form id="searchFrom" autocomplete="off">
-                <!--<form method="post" action="#">-->
-                    <input id="input_Search" class="form-control" type="text" placeholder="add #hachtag ..." name="q"></input>
+                    <!--<form method="post" action="#">-->
+                    <input id="input_Search" class="form-control" type="text" placeholder="What galaxy are you looking for ? (#hachtag and @user works well)" name="q"></input>
                     <!--<input type="hidden" value="makoframework.com" name="as_sitesearch"></input>-->
                 </form>
             </div>
         </div>
-        </div>
-
-  <!-- Modal Settings -->
-  <div id="modalSettings" class="modal">
-    <div class="modal-content">
-      <h4>Settings</h4>
-     Tweets max
-     
-      <div class="input-field col s6">
-          <form id = "AtomScale" autocomplete="off">
-            <input id="input_scaleAtom" type="text" length="10">
-            <label for="input_scaleAtom">Atom Scale Factor</label>
+    </div>
+    <!-- Modal Settings -->
+    <div id="modalSettings" class="modal">
+        <div class="modal-content">
+            <h4>Settings</h4> Tweets max
+            <div class="input-field col s6">
+                <form id="AtomScale" autocomplete="off">
+                    <input id="input_scaleAtom" type="text" length="10">
+                    <label for="input_scaleAtom">Atom Scale Factor</label>
+                </form>
+            </div>
+            <div class="switch">
+                <label>
+                    Off
+                    <input type="checkbox">
+                    <span class="lever"></span> On
+                </label>
+            </div>
             </form>
-          </div>
-          
-    <div class="switch">
-    <label>
-      Off
-      <input type="checkbox">
-      <span class="lever"></span>
-      On
-    </label>
-  </div>
-  </form>
-  <input type="range" value="15" max="50" min="0" step="5">
-      <p>Abouts things ...</p>
-      <!--<a class="waves-effect waves-light btn "><i class="material-icons left">person_pin</i>About</a>-->
+            <input type="range" value="15" max="50" min="0" step="5">
+            <p>Abouts things ...</p>
+            <!--<a class="waves-effect waves-light btn "><i class="material-icons left">person_pin</i>About</a>-->
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>Github</a>
+            <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>About</a>
+            <!--<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
+        </div>
     </div>
-    <div class="modal-footer">
-      <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>Github</a>
-      <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>About</a>
-      <!--<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
+    <!-- End of Modal Settings -->
+    <!--<a class="modal-trigger waves-effect waves-light btn" id="footer" href="#modalSettings">Modal</a>-->
     </div>
-  </div>
-   <!-- End of Modal Settings -->
-  <!--<a class="modal-trigger waves-effect waves-light btn" id="footer" href="#modalSettings">Modal</a>-->
-    </div>
-  <script>
-      
-      $(document).ready(function() {
-        $('.modal-trigger').leanModal();
-        });
-      
-      $('a#toggle-search').click(function()
-    {
-        var search = $('div#search');
+    <script>
+    $(document).ready(function() {
 
-        search.is(":visible") ? search.slideUp() : search.slideDown(function()
-        {
-            search.find('input').focus();
+        //Press Enter
+        $(document).keypress(function(e) {
+            if (e.which == 13) {
+                var search = $('div#search');
+                if (!search.is(":visible")) {
+                  search.find('input').val('');
+                    search.slideDown(function() {
+                        search.find('input').focus();
+                    });
+                };
+            }
         });
+
+        $('.modal-trigger').leanModal();
+    });
+
+    $('a#toggle-search').click(function() {
+        var search = $('div#search');
+        if (search.is(":visible")) {
+            search.slideUp();
+        } else {
+          search.find('input').val('');
+            search.slideDown(function() {
+                search.find('input').focus();
+            });
+        }
 
         return false;
     });
-      </script>
-  
+    </script>
+
 </html>
