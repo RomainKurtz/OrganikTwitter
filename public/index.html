@@ -57,9 +57,9 @@ require.config({
         </span>
         <div id="search" class="row white-text grey darken-3" >
             <div class="container">
-                <form action="https://www.google.com/search" autocomplete="off">
+                <form id="searchFrom" autocomplete="off">
                 <!--<form method="post" action="#">-->
-                    <input class="form-control" type="text" placeholder="add #hachtag ..." name="q"></input>
+                    <input id="input_Search" class="form-control" type="text" placeholder="add #hachtag ..." name="q"></input>
                     <!--<input type="hidden" value="makoframework.com" name="as_sitesearch"></input>-->
                 </form>
             </div>
@@ -71,10 +71,14 @@ require.config({
     <div class="modal-content">
       <h4>Settings</h4>
      Tweets max
-        <form action="#">
-    <p class="range-field">
-      <input type="range" id="test5" min="0" max="100" />
-    </p>
+     
+      <div class="input-field col s6">
+          <form id = "AtomScale" autocomplete="off">
+            <input id="input_scaleAtom" type="text" length="10">
+            <label for="input_scaleAtom">Atom Scale Factor</label>
+            </form>
+          </div>
+          
     <div class="switch">
     <label>
       Off
@@ -84,6 +88,7 @@ require.config({
     </label>
   </div>
   </form>
+  <input type="range" value="15" max="50" min="0" step="5">
       <p>Abouts things ...</p>
       <!--<a class="waves-effect waves-light btn "><i class="material-icons left">person_pin</i>About</a>-->
     </div>
@@ -97,6 +102,7 @@ require.config({
   <!--<a class="modal-trigger waves-effect waves-light btn" id="footer" href="#modalSettings">Modal</a>-->
     </div>
   <script>
+      
       $(document).ready(function() {
         $('.modal-trigger').leanModal();
         });

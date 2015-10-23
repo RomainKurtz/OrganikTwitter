@@ -41,10 +41,17 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             changeVelocity: function(newVelocity) {
                 this.velocity = newVelocity;
             },
-            changeScale: function(scale) {
-                 this.objectAvatar.scale.x = scale;
-                 this.objectAvatar.scale.y = scale;
-                 this.objectAvatar.scale.z = scale;
+            changeScale: function(scale, animation) {
+                if(animation){
+                    var newScale = scale;
+                    var start = this.objectAvatar.scale;
+                    var end = {x : newScale, y : newScale, z : newScale}
+                    Animation.createAnimation(start, end, 2000, 'Elastic.Out');
+                }else{
+                    this.objectAvatar.scale.x = scale;
+                    this.objectAvatar.scale.y = scale;
+                    this.objectAvatar.scale.z = scale;                                
+                }
             },
             /*
             * Behaviour Part
@@ -107,12 +114,12 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             * Twitter Part 
             */
             _computeTweetScale: function() {
-                var scale = this.tweetData.retweet_count;
+                var scale = this.tweetData.retweet_count/AtomManager.atomDownScaleCoeff;
                 if (scale === 0) {
                     //scale = 0.3;
-                    scale = 100;
+                    scale = 1;
                 }
-                return scale/100;
+                return scale;
             },
             setTweetData: function(data) {
                 this.tweetData = data;

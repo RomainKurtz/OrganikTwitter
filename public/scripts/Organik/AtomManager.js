@@ -19,6 +19,7 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                     min: new THREE.Vector3(-100, -100, -100)
                 }
                 this.containerAtomsName = 'atomContainer';
+                this.atomDownScaleCoeff = 1;
                 RenderManager.addOneCallbackToRenderer(this.renderAtomsManager, this);
             },
             addAtom: function(atom) {
@@ -38,6 +39,12 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
             changeWorldLimits: function(min, max) {
                 this.worldLimites.min = min;
                 this.worldLimites.max = max;
+            },
+            changeScaleCoeff: function(coeff){
+                this.atomDownScaleCoeff = coeff;
+                for (var i = 0; i < this.atomList.length; i++) {
+                    this.atomList[i].changeScale(this.atomList[i]._computeTweetScale(), true);
+                }
             },
             getAtomBy3DObject: function(object3D) {
                 for (var i = 0; i < this.atomList.length; i++) {

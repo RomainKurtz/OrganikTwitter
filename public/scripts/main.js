@@ -1,12 +1,9 @@
 /* global requirejs */
-requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIManager"],
-    function(THREE, Atom, CameraManager, io, UIManager) {
+requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIManager" , "Organik/ServerMessageManager"],
+    function(THREE, Atom, CameraManager, io, UIManager, ServerMessageManager) {
         
-
         CameraManager.changeCameraPosition(new THREE.Vector3(-125, 5, 2.5));
-
-        var socket = io.connect('http://localhost:5000');
-        socket.on('tweetArrived', function(data) {
+        ServerMessageManager.eventSubscriber('tweetArrived',function(data){
             if (data instanceof Array) {
                 for (var i = 0; i < data.length; i++) {
                     createAtom(data[i]);
@@ -15,7 +12,10 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
                 createAtom(data);
             }
         });
+        //ServerMessageManager.eventSender('getTweet');
+        //ServerMessageManager.getTweetbyHachtag('dassault');
 
+      
         function createAtom(data) {
             var atom = new Atom(data);
             atom.setRandomPosition();
