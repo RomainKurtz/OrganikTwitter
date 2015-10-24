@@ -16,8 +16,8 @@ define("Organik/ServerMessageManager", ["socketio"],
         }
         ServerMessageManager.prototype = {
             _initialize: function() {
-                this.initSocket(); 
-                this.initSocketEvent();    
+                this.initSocket();
+                this.initSocketEvent();
             },
             initSocket : function(){
                 this.socket = io.connect(this.SERVERADR);
@@ -36,6 +36,10 @@ define("Organik/ServerMessageManager", ["socketio"],
                         this.tabEvent[i].callback.push(callback);
                     }
                 }
+            },
+            eventUnsubscriber: function(id){
+                //todo : eventSubscriber return unique id
+                //       eventUnsubscriber remove this.tabEvent[i].callback associat at the ID
             },
             eventSender: function(eventName, data){
                 this.socket.emit(eventName, data)

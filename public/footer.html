@@ -1,0 +1,54 @@
+<div id="footer">
+    <span><a class="waves-effect waves-light btn black"  onclick="Materialize.toast('I am a toast', 4000)">#LeonardodaVinci</a></span>
+    <span><a class="waves-effect waves-light btn black"  onclick="Materialize.toast('I am a toast', 4000)">#RetourVersLeFutur</a></span>
+    <span>
+    <a class="waves-effect waves-light btn modal-trigger black" data-target="modalTweet" onclick="$('div.lean-overlay:last').remove();">#javascript</a>
+<!-- Modal tweet -->
+  <div id="modalTweet" class="modal modalTweet">
+    <div class="modal-cotnent">
+    <div class="switch">
+            <label>
+                Off
+                <input type="checkbox">
+                <span class="lever"></span> On
+            </label>
+        </div>
+        <div class="switch">
+            <label>
+                Off
+                <input type="checkbox">
+                <span class="lever"></span> On
+            </label>
+        </div>
+        <div class="switch">
+            <label>
+                Off
+                <input type="checkbox">
+                <span class="lever"></span> On
+            </label>
+        </div>
+      </div>
+  </div> 
+  <!--  $('div.lean-overlay:last').remove(); -->
+   <!-- End of Modal tweet -->
+        </span>
+    <span>
+    <a class="waves-effect waves-light btn modal-trigger black" data-target="modalSettings"><i class="material-icons left">settings</i>Settings</a>
+    </span>
+    <span>  
+            <li>
+                <a class="waves-effect waves-light btn" id="toggle-search" href="#!">
+                <i class="large mdi-action-search"></i>
+                </a>
+            </li>  
+        </span>
+    <div id="search" class="row white-text grey darken-3">
+        <div class="container">
+            <form id="searchFrom" autocomplete="off">
+                <!--<form method="post" action="#">-->
+                <input id="input_Search" class="form-control" type="text" placeholder="What galaxy are you looking for ? (#hachtag and @user works well)" name="q"></input>
+                <!--<input type="hidden" value="makoframework.com" name="as_sitesearch"></input>-->
+            </form>
+        </div>
+    </div>
+</div>
