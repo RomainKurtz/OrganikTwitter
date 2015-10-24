@@ -18,10 +18,16 @@ define("UI/UIManager", ["Organik/AtomManager", "Organik/ServerMessageManager"],
             },
             createUI: function() {
 
-                /* this.domElement = document.createElement('div')
-                    document.body.appendChild(this.domElement);
-                    this.domElement.innerHTML = '<a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>button</a>';
-           */
+                // import footer
+                var getImport = document.querySelector('#template-footer');
+                var getContent = getImport.import.querySelector('#footer');
+                document.body.appendChild(document.importNode(getContent, true));
+
+                // import modal settings
+                getImport = document.querySelector('#template-modalsettings');
+                getContent = getImport.import.querySelector('#modalSettings');
+                document.body.appendChild(document.importNode(getContent, true));
+
             },
             onDomReady: function() {
                 window.onload = function() {
@@ -46,7 +52,42 @@ define("UI/UIManager", ["Organik/AtomManager", "Organik/ServerMessageManager"],
                         search.slideUp();
                         return false;
                     }.bind(this);
+
+                    this._buildUIBehaviour();
+
                 }.bind(this);
+            },
+            _buildUIBehaviour: function() {
+
+                //Press Enter
+                $(document).keypress(function(e) {
+                    if (e.which == 13) {
+                        var search = $('div#search');
+                        if (!search.is(":visible")) {
+                            search.find('input').val('');
+                            search.slideDown(function() {
+                                search.find('input').focus();
+                            });
+                        };
+                    }
+                });
+
+                $('.modal-trigger').leanModal();
+
+                //Search button
+                $('a#toggle-search').click(function() {
+                    var search = $('div#search');
+                    if (search.is(":visible")) {
+                        search.slideUp();
+                    } else {
+                        search.find('input').val('');
+                        search.slideDown(function() {
+                            search.find('input').focus();
+                        });
+                    }
+
+                    return false;
+                });
             }
         };
         UIManager.getInstance = function() {
