@@ -3,12 +3,15 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
     function(THREE, Atom, CameraManager, io, UIManager, ServerMessageManager) {
         
         CameraManager.changeCameraPosition(new THREE.Vector3(-125, 5, 2.5));
+       // UIManager.addGalaxy('newHachtag1');
+       // UIManager.addGalaxy('newHachtag2');
         ServerMessageManager.eventSubscriber('tweetArrived',function(data){
             if (data instanceof Array) {
                 for (var i = 0; i < data.length; i++) {
                     createAtom(data[i]);
                 }
-                Materialize.toast(data.length + ' planets added', 4000)
+                Materialize.toast(data.length + ' planets added', 4000);
+                UIManager.addGalaxy('newHachtag');
             } else {
                 createAtom(data);
             }
