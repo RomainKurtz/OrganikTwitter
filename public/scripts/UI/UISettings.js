@@ -26,6 +26,7 @@ define("UI/UISettings", ['handlebars', 'text!UI/templates/settings.hbs', 'Organi
                 // ////Modal////
                 var formScale = document.getElementById("AtomScale");
                 var inputScale = document.getElementById("input_scaleAtom");
+                
                 formScale.onsubmit = function() {
                     AtomManager.changeScaleCoeff(inputScale.value);
                     return false;

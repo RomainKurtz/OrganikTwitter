@@ -14,6 +14,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.velocity = Math.random() / 2;
                 this.highlighted = false;
                 this.objectAvatarHighlight = null;
+                this.groupName = null;
                 
                 this.atomUI = new AtomUI();
                 this.createAvatar();
@@ -27,6 +28,18 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 }
                 if(this.objectAvatarHighlight){
                     this.renderUpdateHighlightAvatar();
+                }
+            },
+            remove: function(){
+                this.removeMouseInteraction();
+                this.deleteAvatar();
+                AtomManager.removeAtom(this);
+            },
+            isEqual: function(OtherAtom){
+                if(this.tweetData.id === OtherAtom.tweetData.id){
+                    return true
+                }else{
+                    return false
                 }
             },
             /*
@@ -85,6 +98,9 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.objectAvatar = new THREE.Sprite(material);
                 SceneManager.add(AtomManager.containerAtomsName, this.objectAvatar);
             },
+            deleteAvatar: function(){
+                SceneManager.remove(AtomManager.containerAtomsName, this.objectAvatar);
+            },
             /*
             * Random Position/Scale/Direction 
             */
@@ -124,6 +140,9 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             setTweetData: function(data) {
                 this.tweetData = data;
                 this.treatTweetData();
+            },
+            setGroup: function(groupName){
+                this.groupName = groupName;
             },
             treatTweetData: function() {
 
@@ -215,6 +234,11 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                     var atom = AtomManager.getAtomBy3DObject(req.target);
                     console.log(atom.tweetData);
                 });
+            },
+            removeMouseInteraction:function(){
+                Utilities.removeEventOn3DObject(this.objectAvatar, 'mouseover');
+                Utilities.removeEventOn3DObject(this.objectAvatar, 'mouseout');
+                Utilities.removeEventOn3DObject(this.objectAvatar, 'click');
             }
         }
         return Atom;

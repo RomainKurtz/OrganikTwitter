@@ -25,6 +25,10 @@ define("Organik/Utilities", ["three", "Organik/CameraManager", "Organik/RenderMa
             },
             removeEventOn3DObject: function(object3D, event, callback) {
                 this._domEvents.removeEventListener(object3D, event, callback, false)
+            },
+            createDomID: function(){
+                var uniq = 'id' + (new Date()).getTime();
+                return uniq;
             }
 
         };

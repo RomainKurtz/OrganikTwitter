@@ -31,6 +31,11 @@ html {
 
 #black {
     background-color: rgba(24, 25, 25, 0.53);
+    
+}
+
+.redFont {
+    color: red!important;
 }
 
 #footer {
@@ -61,7 +66,7 @@ html {
 }
 
 .modalGalaxy {
-   position: absolute!important;
+    position: absolute!important;
     top: inherit!important;
     margin-left: auto!important;
     margin-right: auto!important;
@@ -71,6 +76,7 @@ html {
     max-height: 800px!important;
     padding: 10px!important;
     width: 175px!important;
+    background-color: rgba(144, 144, 144, 0)!important;
 }
 
 .message {

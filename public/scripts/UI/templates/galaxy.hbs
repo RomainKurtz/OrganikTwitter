@@ -1,14 +1,15 @@
-<span>
+<span id="span-{{id}}">
     <!-- Button Galaxy -->
-    <a id="button-{{galaxyName}}"class="waves-effect waves-light btn modal-trigger-no-overlay black" data-target="modal-{{galaxyName}}">#{{galaxyName}}</a>
+    <a id="button-{{id}}"class="waves-effect waves-light btn black 0scalew" data-target="modal-{{id}}">#{{galaxyName}}</a>
 
     <!-- Modal Galaxy options -->
-    <div id="modal-{{galaxyName}}" class="modal modalGalaxy">
+    <div id="modal-{{id}}" class="modal modalGalaxy">
+
         <div class="modal-cotnent">
 
             <div class="switch">
                 Display<br>
-                <label>Hide <input type="checkbox"><span class="lever"></span> Show</label>
+                <label>Hide <input id="displaySwitch-{{id}}" type="checkbox" checked><span class="lever"></span> Show</label>
             </div>
 
             <div class="switch">
@@ -18,7 +19,9 @@
             <div class="switch">
                 <label>Hide <input type="checkbox"><span class="lever"></span> Show</label>
             </div>
-            
+
+             <a id="buttonDelete-{{id}}"class="waves-effect waves-teal btn-flat redFont"><i class="material-icons left">delete</i>Delete</a>
+
         </div>
     </div>
     <!-- End of Modal tweet -->

@@ -26,6 +26,15 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 this.atomList.push(atom);
                 //LinkManager.updateLinksTable(this.atomList);
             },
+            removeAtom: function(atom) {
+                for (var i = 0; i < this.atomList.length; i++) {
+                    if(atom.isEqual(this.atomList[i])){
+                        this.atomList.splice(i,1);
+                        atom.remove();
+                        break;
+                    }
+                }
+            },
             renderAtomsManager: function(iMe) {
                 //SceneManager.getSceneContainer(iMe.containerAtomsName).rotation.y +=0.001;
                 iMe.renderAtoms();
@@ -40,7 +49,7 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 this.worldLimites.min = min;
                 this.worldLimites.max = max;
             },
-            changeScaleCoeff: function(coeff){
+            changeScaleCoeff: function(coeff) {
                 this.atomDownScaleCoeff = coeff;
                 for (var i = 0; i < this.atomList.length; i++) {
                     this.atomList[i].changeScale(this.atomList[i]._computeTweetScale(), true);
@@ -54,13 +63,39 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 }
                 return null;
             },
-            getAtombyTweetID: function(ID){
+            getAtombyTweetID: function(ID) {
                 for (var i = 0; i < this.atomList.length; i++) {
                     if (this.atomList[i].tweetData.id === ID) {
                         return this.atomList[i];
                     }
                 }
                 return null;
+            },
+            ////GroupFunction////
+            getAtomsbyGroupName: function(groupName) {
+                var groupAtom = [];
+                for (var i = 0; i < this.atomList.length; i++) {
+                    if (this.atomList[i].groupName === groupName) {
+                        groupAtom.push(this.atomList[i]);
+                    }
+                }
+                return groupAtom;
+            },
+            setGroupVisibility: function(groupName, visibility){
+                this.changeGroupParameter(this.getAtomsbyGroupName(groupName),'visible', visibility)
+            },
+            changeGroupParameter: function(group,parameter,value){
+                for(var i = 0; i < group.length; i++) {
+                    group[i].objectAvatar[parameter] = value;
+                }
+            },
+            deleteGroupByName: function(groupName){
+                for (var i = 0; i < this.atomList.length; i++) {
+                    if (this.atomList[i].groupName === groupName) {
+                        this.removeAtom(this.atomList[i]);
+                        i--
+                    }
+                }
             }
         };
         AtomManager.getInstance = function() {

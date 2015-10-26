@@ -3,31 +3,34 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
     function(THREE, Atom, CameraManager, io, UIManager, ServerMessageManager) {
         
         CameraManager.changeCameraPosition(new THREE.Vector3(-125, 5, 2.5));
-       // UIManager.addGalaxy('newHachtag1');
-       // UIManager.addGalaxy('newHachtag2');
+
         ServerMessageManager.eventSubscriber('tweetArrived',function(data){
-            if (data instanceof Array) {
-                for (var i = 0; i < data.length; i++) {
-                    createAtom(data[i]);
+            if (data.tweetsData instanceof Array) {
+                for (var i = 0; i < data.tweetsData.length; i++) {
+                    createAtom(data.tweetsData[i],data.getParam.getWord);
                 }
-                Materialize.toast(data.length + ' planets added', 4000);
-                UIManager.addGalaxy('newHachtag');
+                Materialize.toast(data.tweetsData.length + ' planets added', 4000);
+                UIManager.addGalaxy(data.getParam.getWord);
             } else {
-                createAtom(data);
+                createAtom(data.tweetsData);
             }
         });
         //ServerMessageManager.eventSender('getTweet');
-        //ServerMessageManager.getTweetbyHachtag('dassault');
+        //ServerMessageManager.getTweetbyHachtag('dassault systemes');
+        // ServerMessageManager.getTweetbyHachtag('3dsmax');
+        ServerMessageManager.getTweetbyHachtag('micheletaugustin');
 
       
-        function createAtom(data) {
+        function createAtom(data, galaxyName) {
             var atom = new Atom(data);
+            atom.setGroup(galaxyName);
             atom.setRandomPosition();
-            //atom.setRandomScale();
             atom.setRandomDirection();
+            atom.addMouseInteraction();
+            //atom.setRandomScale();
             //atom.setTweetData(data);
             //atom.createLayer2D();
-            atom.addMouseInteraction();
+            
         }
     }
 );
