@@ -1,8 +1,8 @@
 define("UI/UISettings", ['hbs!UI/templates/settings', 'Organik/AtomManager'],
     function(template, AtomManager) {
         // start method
-        function UISettings(galaxyName) {
-            this.galaxyName = galaxyName;
+        function UISettings(groupName) {
+            this.groupName = groupName;
             this._initialize();
         }
         // public method
@@ -12,7 +12,7 @@ define("UI/UISettings", ['hbs!UI/templates/settings', 'Organik/AtomManager'],
             },
             createUI: function() {
                 var context = {
-                    galaxyName: this.galaxyName
+                    groupName: this.groupName
                 };    
                     $('body').append(template(context));
 

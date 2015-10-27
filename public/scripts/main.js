@@ -10,7 +10,7 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
                     createAtom(data.tweetsData[i],data.getParam.getWord);
                 }
                 Materialize.toast(data.tweetsData.length + ' planets added', 4000);
-                UIManager.addGalaxy(data.getParam.getWord);
+                UIManager.addGroup(data.getParam.getWord);
             } else {
                 createAtom(data.tweetsData);
             }
@@ -21,9 +21,9 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
         ServerMessageManager.getTweetbyHachtag('micheletaugustin');
 
       
-        function createAtom(data, galaxyName) {
+        function createAtom(data, groupName) {
             var atom = new Atom(data);
-            atom.setGroup(galaxyName);
+            atom.setGroup(groupName);
             atom.setRandomPosition();
             atom.setRandomDirection();
             atom.addMouseInteraction();

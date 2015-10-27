@@ -1,5 +1,5 @@
-define("UI/UIManager", ["Organik/AtomManager", "UI/UIFooter", "UI/UIGalaxy"],
-    function(AtomManager, UIFooter, UIGalaxy) {
+define("UI/UIManager", ["Organik/AtomManager", "UI/UIFooter", "UI/UIGroup"],
+    function(AtomManager, UIFooter, UIGroup) {
         var instance = null;
 
         function UIManager() {
@@ -28,8 +28,8 @@ define("UI/UIManager", ["Organik/AtomManager", "UI/UIFooter", "UI/UIGalaxy"],
             },
             onDomReady: function() {
             },
-            addGalaxy: function(galaxyName){
-                var uIGalaxy = new UIGalaxy(galaxyName);
+            addGroup: function(groupName){
+                var uIGroup = new UIGroup(groupName);
             },
             _buildUIBehaviour: function() {
                 

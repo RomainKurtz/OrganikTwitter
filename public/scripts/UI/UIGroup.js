@@ -1,23 +1,23 @@
-define("UI/UIGalaxy", ['hbs!UI/templates/galaxy', 'Organik/Utilities', 'Organik/AtomManager', 'colorPicker'],
+define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/AtomManager', 'colorPicker'],
     function(template, Utilities, AtomManager, colorPicker) {
         // start method
-        function UIGalaxy(galaxyName) {
-            this.galaxyName = galaxyName;
+        function UIGroup(groupeName) {
+            this.groupeName = groupeName;
             this.id = null;
             this._initialize();
         }
         // public method
-        UIGalaxy.prototype = {
+        UIGroup.prototype = {
             _initialize: function() {
                 this.id = Utilities.createDomID();
                 this.createUI();
             },
             createUI: function() {
                 var context = {
-                    galaxyName: this.galaxyName,
+                    groupName: this.groupeName,
                     id: this.id
                 };
-                $('#galaxy-buttons').append(template(context));
+                $('#group-buttons').append(template(context));
                 this._buildUIBehaviour();
             },
             _buildUIBehaviour: function() {
@@ -42,13 +42,13 @@ define("UI/UIGalaxy", ['hbs!UI/templates/galaxy', 'Organik/Utilities', 'Organik/
                 //Ratio : Hide/show//
                 var switchDisplay = $('#displaySwitch-' + this.id);
                 switchDisplay.change(function() {
-                    AtomManager.setGroupVisibility(this.galaxyName, switchDisplay.is(':checked'));
+                    AtomManager.setGroupVisibility(this.groupeName, switchDisplay.is(':checked'));
                 }.bind(this));
 
                 //Button Delete//
                 var buttonDelete = $('#buttonDelete-' + this.id);
                 buttonDelete.click(function() {
-                    AtomManager.deleteGroupByName(this.galaxyName);
+                    AtomManager.deleteGroupByName(this.groupeName);
                     this.deleteUI();
                 }.bind(this));
 
@@ -64,7 +64,7 @@ define("UI/UIGalaxy", ['hbs!UI/templates/galaxy', 'Organik/Utilities', 'Organik/
                     }else{
                             colorpickerDiv.animate({height:'0px'}, 300);
                             if(colorHasBeenChoosen){
-                            AtomManager.setGroupColor(this.galaxyName);
+                            AtomManager.setGroupColor(this.groupeName);
                             colorHasBeenChoosen = false;
                         }
                     }
@@ -78,7 +78,7 @@ define("UI/UIGalaxy", ['hbs!UI/templates/galaxy', 'Organik/Utilities', 'Organik/
                     picker: true
                 }).on('change', function() {
                     colorHasBeenChoosen = true;
-                    AtomManager.setGroupColor(this.galaxyName, colorpicker.val());
+                    AtomManager.setGroupColor(this.groupeName, colorpicker.val());
                 }.bind(this));
 
             },
@@ -86,5 +86,5 @@ define("UI/UIGalaxy", ['hbs!UI/templates/galaxy', 'Organik/Utilities', 'Organik/
                 $('#span-' + this.id).remove();
             }
         }
-        return UIGalaxy;
+        return UIGroup;
     })
