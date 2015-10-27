@@ -1,4 +1,0 @@
-.git*
-src/
-spec/
-.travis.yml

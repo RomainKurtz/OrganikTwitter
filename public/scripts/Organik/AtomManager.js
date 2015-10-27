@@ -27,13 +27,9 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 //LinkManager.updateLinksTable(this.atomList);
             },
             removeAtom: function(atom) {
-                for (var i = 0; i < this.atomList.length; i++) {
-                    if(atom.isEqual(this.atomList[i])){
-                        this.atomList.splice(i,1);
-                        atom.remove();
-                        break;
-                    }
-                }
+                var i = this.atomList.indexOf(atom);
+                this.atomList[i].remove();
+                this.atomList.splice(i,1);
             },
             renderAtomsManager: function(iMe) {
                 //SceneManager.getSceneContainer(iMe.containerAtomsName).rotation.y +=0.001;
@@ -81,8 +77,17 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 }
                 return groupAtom;
             },
-            setGroupVisibility: function(groupName, visibility){
-                this.changeGroupParameter(this.getAtomsbyGroupName(groupName),'visible', visibility)
+            setGroupVisibility: function(groupName, visible){
+                var group = this.getAtomsbyGroupName(groupName);
+                for(var i = 0; i < group.length; i++) {
+                    group[i].changeVisibility(visible);
+                }
+            },
+            setGroupColor: function(groupName, color){
+                var group = this.getAtomsbyGroupName(groupName);
+                for(var i = 0; i < group.length; i++) {
+                    group[i].changeColor(color);
+                }
             },
             changeGroupParameter: function(group,parameter,value){
                 for(var i = 0; i < group.length; i++) {

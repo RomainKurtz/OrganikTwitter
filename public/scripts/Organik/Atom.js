@@ -30,17 +30,13 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                     this.renderUpdateHighlightAvatar();
                 }
             },
+            // If you want to delete atom use AtomManager.removeAtom(atom);
             remove: function(){
                 this.removeMouseInteraction();
-                this.deleteAvatar();
-                AtomManager.removeAtom(this);
-            },
-            isEqual: function(OtherAtom){
-                if(this.tweetData.id === OtherAtom.tweetData.id){
-                    return true
-                }else{
-                    return false
+                if(this.isHighlighted()){
+                    this.highlightExit();
                 }
+                this.deleteAvatar();
             },
             /*
             * Set Position/Scale/Direction/Velocity 
@@ -65,6 +61,21 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                     this.objectAvatar.scale.y = scale;
                     this.objectAvatar.scale.z = scale;                                
                 }
+            },
+            changeColor: function(newColor){
+                //If newColor don't define then we generate rendom color
+                if(!newColor){
+                    newColor = Math.random() * 0x808008 + 0x808080;
+                }
+                    var color = new THREE.Color( newColor );
+                    this.objectAvatar.material.color = color;
+
+            },
+            changeVisibility: function(visible){
+                if(this.isHighlighted()){
+                    this.highlightExit();
+                }
+                this.objectAvatar.visible = visible;
             },
             /*
             * Behaviour Part

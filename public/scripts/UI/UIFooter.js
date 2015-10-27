@@ -1,5 +1,5 @@
-define("UI/UIFooter", ['handlebars', 'text!UI/templates/footer.hbs', "Organik/ServerMessageManager", "UI/UISettings"],
-    function(Handlebars, PlainTextTemplate, ServerMessageManager, UISettings) {
+define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager", "UI/UISettings"],
+    function( template, ServerMessageManager, UISettings) {
         // start method
         function UIFooter() {
             this._initialize();
@@ -10,7 +10,7 @@ define("UI/UIFooter", ['handlebars', 'text!UI/templates/footer.hbs', "Organik/Se
                 this.createUI();
             },
             createUI: function() {
-                var template = Handlebars.compile(PlainTextTemplate);
+               // var template = Handlebars.compile(PlainTextTemplate);
                 var context = {
                     searchbarPlaceholder: 'What galaxy are you looking for ? (#hachtag and @user works well)'
                 };

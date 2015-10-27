@@ -1,5 +1,5 @@
-define("UI/UISettings", ['handlebars', 'text!UI/templates/settings.hbs', 'Organik/AtomManager'],
-    function(Handlebars, PlainTextTemplate, AtomManager) {
+define("UI/UISettings", ['hbs!UI/templates/settings', 'Organik/AtomManager'],
+    function(template, AtomManager) {
         // start method
         function UISettings(galaxyName) {
             this.galaxyName = galaxyName;
@@ -11,7 +11,6 @@ define("UI/UISettings", ['handlebars', 'text!UI/templates/settings.hbs', 'Organi
                 this.createUI();
             },
             createUI: function() {
-                var template = Handlebars.compile(PlainTextTemplate);
                 var context = {
                     galaxyName: this.galaxyName
                 };    

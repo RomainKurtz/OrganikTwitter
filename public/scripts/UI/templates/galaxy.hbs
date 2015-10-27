@@ -8,16 +8,25 @@
         <div class="modal-cotnent">
 
             <div class="switch">
-                Display<br>
                 <label>Hide <input id="displaySwitch-{{id}}" type="checkbox" checked><span class="lever"></span> Show</label>
             </div>
 
             <div class="switch">
-                <label>Hide <input type="checkbox"><span class="lever"></span> Show</label>
+                <label>Auto <input id="colorPickerSwitch-{{id}}" type="checkbox"><span class="lever"></span> Color</label>
             </div>
-
-            <div class="switch">
-                <label>Hide <input type="checkbox"><span class="lever"></span> Show</label>
+            <div id="divColorPicker-{{id}}" class="divColorPicker">
+                <select id="colorpicker-{{id}}">
+                  <option value="#E8180C">Red</option>
+                  <option value="#2016E8">Blue</option>
+                  <option value="#E0E80C">Yellow</option>
+                  <option value="#28E823">Green</option>
+                  <option value="#FF2C0F">Orange</option>
+                  <option value="#CA47FF">Purple</option>
+                  <option value="#E80C59">Pink</option>
+                  <option value="#17CC74">Turquoise</option>
+                  <option value="#FFF5F3">White</option>
+                  <option value="#339DFF">Light Blue</option>
+                </select>
             </div>
 
              <a id="buttonDelete-{{id}}"class="waves-effect waves-teal btn-flat redFont"><i class="material-icons left">delete</i>Delete</a>

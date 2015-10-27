@@ -1,6 +1,5 @@
-define("UI/UIGalaxy", ['handlebars', 'text!UI/templates/galaxy.hbs', 'Organik/Utilities', 'Organik/AtomManager'
-],
-    function(Handlebars, PlainTextTemplate,Utilities, AtomManager) {
+define("UI/UIGalaxy", ['hbs!UI/templates/galaxy', 'Organik/Utilities', 'Organik/AtomManager', 'colorPicker'],
+    function(template, Utilities, AtomManager, colorPicker) {
         // start method
         function UIGalaxy(galaxyName) {
             this.galaxyName = galaxyName;
@@ -14,7 +13,6 @@ define("UI/UIGalaxy", ['handlebars', 'text!UI/templates/galaxy.hbs', 'Organik/Ut
                 this.createUI();
             },
             createUI: function() {
-                var template = Handlebars.compile(PlainTextTemplate);
                 var context = {
                     galaxyName: this.galaxyName,
                     id: this.id
@@ -24,8 +22,8 @@ define("UI/UIGalaxy", ['handlebars', 'text!UI/templates/galaxy.hbs', 'Organik/Ut
             },
             _buildUIBehaviour: function() {
                 ////Footer Button////
-                $('#button-'+this.id).click(function() {
-                    var modal = $('#modal-'+this.id);
+                $('#button-' + this.id).click(function() {
+                    var modal = $('#modal-' + this.id);
                     if (!modal.is(":visible")) {
                         modal.openModal({
                             opacity: 0,
@@ -42,20 +40,50 @@ define("UI/UIGalaxy", ['handlebars', 'text!UI/templates/galaxy.hbs', 'Organik/Ut
 
                 ////Modal////
                 //Ratio : Hide/show//
-                var switchDisplay = $('#displaySwitch-'+this.id);
-                 switchDisplay.change(function() {
+                var switchDisplay = $('#displaySwitch-' + this.id);
+                switchDisplay.change(function() {
                     AtomManager.setGroupVisibility(this.galaxyName, switchDisplay.is(':checked'));
-                 }.bind(this));
+                }.bind(this));
 
-                 //Button Delete//
-                var buttonDelete = $('#buttonDelete-'+this.id);
-                 buttonDelete.click(function() {
+                //Button Delete//
+                var buttonDelete = $('#buttonDelete-' + this.id);
+                buttonDelete.click(function() {
                     AtomManager.deleteGroupByName(this.galaxyName);
                     this.deleteUI();
-                 }.bind(this));       
+                }.bind(this));
+
+                ////Color/////
+                //Color Ratio//
+                var switchcolorpicker =  $('#colorPickerSwitch-' + this.id);
+                var colorHasBeenChoosen = false;
+
+                switchcolorpicker.change(function() {
+                    var colorpickerDiv = $('#divColorPicker-' + this.id);
+                    if(switchcolorpicker.is(':checked')){
+                        colorpickerDiv.animate({height:colorpickerDiv.get(0).scrollHeight}, 300);
+                    }else{
+                            colorpickerDiv.animate({height:'0px'}, 300);
+                            if(colorHasBeenChoosen){
+                            AtomManager.setGroupColor(this.galaxyName);
+                            colorHasBeenChoosen = false;
+                        }
+                    }
+                }.bind(this));
+
+                //Color picker//
+                var colorpicker =  $('#colorpicker-' + this.id);
+                colorpicker.simplecolorpicker();
+
+                colorpicker.simplecolorpicker({
+                    picker: true
+                }).on('change', function() {
+                    colorHasBeenChoosen = true;
+                    AtomManager.setGroupColor(this.galaxyName, colorpicker.val());
+                }.bind(this));
+
             },
-            deleteUI: function(){
-                $('#span-'+this.id).remove();
+            deleteUI: function() {
+                $('#span-' + this.id).remove();
             }
         }
         return UIGalaxy;

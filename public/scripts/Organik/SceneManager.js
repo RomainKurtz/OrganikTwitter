@@ -1,5 +1,5 @@
-define("Organik/SceneManager", ["three", "Organik/CameraManager", "Organik/RenderManager"],
-    function(THREE, CameraManager, RenderManager) {
+define("Organik/SceneManager", ["three", "Organik/RenderManager"],
+    function(THREE, RenderManager) {
         var instance = null;
 
         function SceneManager() {
@@ -13,7 +13,6 @@ define("Organik/SceneManager", ["three", "Organik/CameraManager", "Organik/Rende
                 // summary:
                 // Initializes the singleton.
                 this.scene = new THREE.Scene();
-                //console.log(CameraManager.camera.rotation.z);
                 RenderManager.setRendererScene(this.scene);
 
             },
@@ -47,10 +46,6 @@ define("Organik/SceneManager", ["three", "Organik/CameraManager", "Organik/Rende
                     console.log('object don\'t exist');
                 }
 
-            },
-            _createSceneContainer: function() {
-                this.atomContainer = new THREE.Object3D();
-                this.scene.add(this.atomContainer);
             },
             getSceneContainer: function(nameOfContainer) {
                 for (var i = 0; i < this.scene.children.length; i++) {

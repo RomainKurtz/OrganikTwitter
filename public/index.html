@@ -12,14 +12,14 @@
     <script src="./bower_components/Materialize/dist/js/materialize.min.js"></script>
     <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
     <!-- Import template -->
-<!--     <link rel="import" id="template-footer" href="./footer.html"> -->
- <!--    <link rel="import" id="template-modalsettings" href="./modalSettings.html"> -->
+    <!--     <link rel="import" id="template-footer" href="./footer.html"> -->
+    <!--    <link rel="import" id="template-modalsettings" href="./modalSettings.html"> -->
     <!-- End of Import template -->
 </head>
 <script type="text/javascript">
 require.config({
     paths: {
-        text : "../bower_components/text/text",
+        text: "../bower_components/text/text",
         three: '../bower_components/three.js/build/three.min',
         trackballcontrols: '../bower_components/TrackballControls/index',
         socketio: '/socket.io/socket.io',
@@ -27,7 +27,9 @@ require.config({
         threexDomevents: '../bower_components/threex.domevents/threex.domevents',
         threeProjector: '../bower_components/three.js/examples/js/renderers/Projector',
         tweenjs: '../bower_components/tween.js/src/Tween',
-        handlebars: '../bower_components/handlebars/handlebars.min'
+        handlebars: '../bower_components/handlebars/handlebars.min',
+        colorPicker: '../bower_components/jquery-simplecolorpicker/jquery.simplecolorpicker',
+        hbs: '../bower_components/requirejs-hbs/hbs'
     },
     shim: {
         trackballcontrols: {
@@ -41,7 +43,10 @@ require.config({
         },
         threexDomevents: {
             deps: ['three']
-        }
+        },
+        handlebars: {
+            exports: 'Handlebars'
+        },
     }
 });
 </script>

@@ -35,9 +35,17 @@
          socket.emit('tweetArrived', allTweet);
      });
      socket.on('getTweetbyHachtag', function(hachtag) {
+         var getParam = {
+             getType: 'getTweetbyHachtag',
+             period: '',
+             getWord: hachtag,
+         }
          var clientTabOfTweet = []
          getTweetbyHachtag(hachtag, clientTabOfTweet, function() {
-             socket.emit('tweetArrived', clientTabOfTweet);
+             socket.emit('tweetArrived', {
+                 'tweetsData': clientTabOfTweet,
+                 'getParam': getParam
+             });
              //clientTabOfallTweet add clientTabOfTweet
          });
      });
@@ -48,11 +56,6 @@
  // Put your twitter api id here
  var client = new Twitter({
 
-     
-
-     request_options: {
-         //proxy: 'http://10.6.69.50:8080'
-     }
  });
 
  function getTweetbyHachtag(hachtag, allTweet, callback) {
@@ -64,7 +67,7 @@
      //var twitter_word_to_search = 'Dassault+Systemes';
      //var twitter_word_to_search = 'Leonardo+vinci';
      var twitter_word_to_search = hachtag;
-     var NUMBEROFDAY = 1; // 0 : Only today | 1: today + yesterday ...
+     var NUMBEROFDAY = 0; // 0 : Only today | 1: today + yesterday ...
 
      var dateToStart = getDateTime(NUMBEROFDAY);
      var params = {
@@ -108,20 +111,30 @@
  // }); 
 
  //// STREAMING ////
- var twitter_word_to_search = 'dfgdfgdfgdfgdfgdfgdfgdfdfgdfgdf';
+ var twitter_word_to_search = 'sdfsdfsdfsdfsdsddfsdfsdf';
  client.stream('statuses/filter', {
      track: twitter_word_to_search
  }, function(stream) {
      console.log('Livestream tweet with : ' + twitter_word_to_search)
      stream.on('data', function(tweet) {
          console.log(tweet.text);
-         io.sockets.emit('tweetArrived', tweet);
+
+         var getParam = {
+             getType: 'livestream',
+             period: '',
+             getWord: twitter_word_to_search,
+         }
+
+         io.sockets.emit('tweetArrived', { 'tweetsData':tweet , 'getParam': getParam});
      });
 
      stream.on('error', function(error) {
          throw error;
      });
  });
+
+
+ //////////////// UTILITIES ////////////////
 
  function getURLParameter(parameter, url) {
      if (!url) url = location.href
@@ -132,8 +145,6 @@
      return results == null ? null : results[1];
  }
 
-
- //////////////// UTILITIES ////////////////
  function getDateTime(numberOfDayBeforeToday) {
 
      var date = new Date();
@@ -157,5 +168,4 @@
      day = (day < 10 ? "0" : "") + day;
 
      return year + "-" + month + "-" + day /*+ "-" + hour + "-" + min + "-" + sec*/ ;
-
  }

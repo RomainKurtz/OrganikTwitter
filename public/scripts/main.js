@@ -17,7 +17,7 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
         });
         //ServerMessageManager.eventSender('getTweet');
         //ServerMessageManager.getTweetbyHachtag('dassault systemes');
-        // ServerMessageManager.getTweetbyHachtag('3dsmax');
+        ServerMessageManager.getTweetbyHachtag('3dsmax');
         ServerMessageManager.getTweetbyHachtag('micheletaugustin');
 
       

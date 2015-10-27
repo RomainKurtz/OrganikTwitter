@@ -38,6 +38,11 @@ html {
     color: red!important;
 }
 
+.divColorPicker {
+    height: 0px;
+    overflow: hidden;
+}
+
 #footer {
     position: fixed;
     bottom: 0;
