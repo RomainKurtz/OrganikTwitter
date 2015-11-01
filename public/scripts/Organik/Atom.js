@@ -14,7 +14,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.velocity = Math.random() / 2;
                 this.highlighted = false;
                 this.objectAvatarHighlight = null;
-                this.groupName = null;
+                this.groupProperties = {};
                 
                 this.atomUI = new AtomUI();
                 this.createAvatar();
@@ -70,6 +70,9 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                     var color = new THREE.Color( newColor );
                     this.objectAvatar.material.color = color;
 
+            },
+            getVisibility: function(){
+                return this.objectAvatar.visible;
             },
             changeVisibility: function(visible){
                 if(this.isHighlighted()){
@@ -152,8 +155,27 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.tweetData = data;
                 this.treatTweetData();
             },
-            setGroup: function(groupName){
-                this.groupName = groupName;
+            setGroupProperty: function(propertyName, property){
+                this.groupProperties[propertyName] = property;
+                if(propertyName === 'groupName'){ //In case of name, go to AtomManager, get all the group properties
+                    AtomManager.setGroupAttributeToAtom(this.getGroupName(), this);
+                }
+                if(propertyName === 'groupColor'){
+                    this.changeColor(property);
+                }
+                if(propertyName === 'groupVisibility'){
+                    this.changeVisibility(property)
+                }
+        
+            },
+            getGroupName: function(){
+                return this.groupProperties.groupName;
+            },
+            getGroupColor: function(){
+                return this.groupProperties.groupColor;
+            },
+            getGroupVisibility: function(){
+                return this.groupProperties.groupVisibility;
             },
             treatTweetData: function() {
 

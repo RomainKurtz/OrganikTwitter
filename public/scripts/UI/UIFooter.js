@@ -10,7 +10,6 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
                 this.createUI();
             },
             createUI: function() {
-               // var template = Handlebars.compile(PlainTextTemplate);
                 var context = {
                     searchbarPlaceholder: 'What galaxy are you looking for ? (#hachtag and @user works well)'
                 };

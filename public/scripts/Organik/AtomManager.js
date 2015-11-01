@@ -68,25 +68,34 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 return null;
             },
             ////GroupFunction////
+            getGroupLengthbyGroupName: function(groupName){
+                return this.getAtomsbyGroupName(groupName).length;
+            },
             getAtomsbyGroupName: function(groupName) {
                 var groupAtom = [];
                 for (var i = 0; i < this.atomList.length; i++) {
-                    if (this.atomList[i].groupName === groupName) {
+                    if (this.atomList[i].getGroupName() === groupName) {
                         groupAtom.push(this.atomList[i]);
                     }
                 }
                 return groupAtom;
             },
+            setGroupAttributeToAtom: function(groupName, atom){
+                var group = this.getAtomsbyGroupName(groupName);
+                olderAtom = group[0];
+                atom.setGroupProperty('groupColor', olderAtom.getGroupColor());
+                atom.setGroupProperty('groupVisibility', olderAtom.getGroupVisibility());
+            },
             setGroupVisibility: function(groupName, visible){
                 var group = this.getAtomsbyGroupName(groupName);
                 for(var i = 0; i < group.length; i++) {
-                    group[i].changeVisibility(visible);
+                    group[i].setGroupProperty('groupVisibility', visible);
                 }
             },
             setGroupColor: function(groupName, color){
                 var group = this.getAtomsbyGroupName(groupName);
                 for(var i = 0; i < group.length; i++) {
-                    group[i].changeColor(color);
+                    group[i].setGroupProperty('groupColor', color);
                 }
             },
             changeGroupParameter: function(group,parameter,value){
@@ -96,7 +105,7 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
             },
             deleteGroupByName: function(groupName){
                 for (var i = 0; i < this.atomList.length; i++) {
-                    if (this.atomList[i].groupName === groupName) {
+                    if (this.atomList[i].getGroupName() === groupName) {
                         this.removeAtom(this.atomList[i]);
                         i--
                     }

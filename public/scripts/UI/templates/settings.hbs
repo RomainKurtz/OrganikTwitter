@@ -1,22 +1,25 @@
-<!-- Modal Settings -->
-<div id="modalSettings" class="modal">
-    <div class="modal-content">
-        <h4>Settings</h4> Tweets max
-        <div class="input-field col s6">
-            <form id="AtomScale" autocomplete="off">
-                <input id="input_scaleAtom" type="text" length="10">
-                <label for="input_scaleAtom">Atom Scale Factor</label>
-            </form>
+<span id="span-Settings">
+    <!-- Button Settings -->
+        <a id="buttonSettings" class="waves-effect waves-light btn black 0scalew" data-target="modalSettings"><i class="material-icons left">settings</i>Settings</a>
+
+
+    <!-- Modal group options -->
+    <div id="modalSettings" class="modal modalGroup">
+    <p class="titreGroup" id="titre-{{id}}">SETTINGS</p>
+        <div class="modal-cotnent">
+
+            <div class="switch">
+                <label>Hide <input id="displaySwitch-{{id}}" type="checkbox" checked><span class="lever"></span> Show</label>
+            </div>
+
+            <div class="switch">
+                <label>Auto <input id="colorPickerSwitch-{{id}}" type="checkbox"><span class="lever"></span> Color</label>
+            </div>
+
+            <input id="test" type="range"/>
+
+             <a id="buttonGithub"class="waves-effect waves-teal btn-flat blueFont"><i class="material-icons left">person_pin</i>Github</a>
         </div>
-        <div class="switch">
-            <label>Off<input type="checkbox"><span class="lever"></span> On</label>
-        </div>
-        <input type="range" value="15" max="50" min="0" step="5">
-        <p>Abouts things ...</p>
-        <!--<a class="waves-effect waves-light btn "><i class="material-icons left">person_pin</i>About</a>-->
     </div>
-    <div class="modal-footer">
-        <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>Github</a>
-        <a class="modal-action waves-effect waves-green btn-flat"><i class="material-icons left">person_pin</i>About</a>
-    </div>
-</div>
+    <!-- End of Modal tweet -->
+</span>

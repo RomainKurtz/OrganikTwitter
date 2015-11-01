@@ -12,18 +12,22 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
                 Materialize.toast(data.tweetsData.length + ' planets added', 4000);
                 UIManager.addGroup(data.getParam.getWord);
             } else {
-                createAtom(data.tweetsData);
+                createAtom(data.tweetsData,data.getParam.getWord);
+                UIManager.addGroup(data.getParam.getWord);
             }
         });
         //ServerMessageManager.eventSender('getTweet');
         //ServerMessageManager.getTweetbyHachtag('dassault systemes');
-        ServerMessageManager.getTweetbyHachtag('3dsmax');
-        ServerMessageManager.getTweetbyHachtag('micheletaugustin');
-
+       // ServerMessageManager.getTweetbyHachtag('3dsmax');
+       //  ServerMessageManager.getTweetbyHachtag('micheletaugustin');
+        // ServerMessageManager.getTweetbyHachtag('Diego Vélasquez');
+        // ServerMessageManager.getTweetbyHachtag('Francisco de Goya');
+        // ServerMessageManager.getTweetbyHachtag('Le Caravage');
+        // ServerMessageManager.getTweetbyHachtag('Georges Braque');
       
         function createAtom(data, groupName) {
             var atom = new Atom(data);
-            atom.setGroup(groupName);
+            atom.setGroupProperty('groupName', groupName);
             atom.setRandomPosition();
             atom.setRandomDirection();
             atom.addMouseInteraction();

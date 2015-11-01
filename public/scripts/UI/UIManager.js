@@ -1,5 +1,5 @@
-define("UI/UIManager", ["Organik/AtomManager", "UI/UIFooter", "UI/UIGroup"],
-    function(AtomManager, UIFooter, UIGroup) {
+define("UI/UIManager", ["UI/UIFooter", "UI/UIGroup"],
+    function( UIFooter, UIGroup) {
         var instance = null;
 
         function UIManager() {
@@ -12,27 +12,42 @@ define("UI/UIManager", ["Organik/AtomManager", "UI/UIFooter", "UI/UIGroup"],
             _initialize: function() {
                 // summary:
                 // Initializes the singleton. 
+                this.uIGroupTab = [];
                 this.createUI();
-                // this.onDomReady();
 
             },
             createUI: function() {
                 var uIFooter = new UIFooter();
-                /* 
-
-                // import modal settings
-                getImport = document.querySelector('#template-modalsettings');
-                getContent = getImport.import.querySelector('#modalSettings');
-                document.body.appendChild(document.importNode(getContent, true));*/
-
-            },
-            onDomReady: function() {
             },
             addGroup: function(groupName){
-                var uIGroup = new UIGroup(groupName);
+                var uIGroup = this.getUIGroupByGroupName(groupName); 
+                if(!uIGroup){
+                    // Group don't exist, we create it
+                    uIGroup = new UIGroup(groupName, this);
+                    this.uIGroupTab.push(uIGroup);
+                }else{
+                    // Group alrealy exist
+                    uIGroup.updateUI();
+                }
+            },
+            removeGroupByName: function(groupName){
+                var group = this.getUIGroupByGroupName(groupName);
+                if(group){
+                    this.uIGroupTab.splice(this.uIGroupTab.indexOf(group),1);
+                    group.delete();               
+                }
             },
             _buildUIBehaviour: function() {
                 
+            },
+            getUIGroupByGroupName: function(groupName){
+                for( var i = 0 ; i< this.uIGroupTab.length ; i++){
+                    if(this.uIGroupTab[i].groupName === groupName)
+                    {
+                        return this.uIGroupTab[i]; 
+                    }
+                }
+                return null;
             }
         };
         UIManager.getInstance = function() {

@@ -13,8 +13,10 @@ define("Organik/CameraManager", ["three", "trackballcontrols", "Organik/RenderMa
                 // summary:
                 // Initializes the singleton.
                 this.controls = null;
+                this.camera = null;
                 this._createCamera();
                 this._createCameraControls();
+                
                 RenderManager.addOneCallbackToRenderer(this.renderCamera, this);
                 RenderManager.setRendererCamera(this.camera);
 
@@ -27,7 +29,9 @@ define("Organik/CameraManager", ["three", "trackballcontrols", "Organik/RenderMa
             },
             renderCamera: function(iMe) {
                 //iMe.camera.rotation.y += 0.006;
-                iMe.controls.update();
+                if(iMe.controls){
+                    iMe.controls.update();
+                }
             },
             changeCameraPosition: function(newPos) {
                 this.camera.position.set(newPos.x, newPos.y, newPos.z);
@@ -42,7 +46,7 @@ define("Organik/CameraManager", ["three", "trackballcontrols", "Organik/RenderMa
                 this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             },
             _createCameraControls: function() {
-                this.controls = new THREE.TrackballControls(this.camera);
+                this.controls = new THREE.TrackballControls(this.camera, RenderManager.renderer.domElement);
                 this.controls.rotateSpeed = 5.0;
                 this.controls.zoomSpeed = 5;
                 this.controls.panSpeed = 2;
