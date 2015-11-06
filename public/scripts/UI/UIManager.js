@@ -6,6 +6,7 @@ define("UI/UIManager", ["UI/UIFooter", "UI/UIGroup"],
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one UIManager, use UIManager.getInstance()");
             }
+            this.uIFooter = null;
             this._initialize();
         }
         UIManager.prototype = {
@@ -17,7 +18,7 @@ define("UI/UIManager", ["UI/UIFooter", "UI/UIGroup"],
 
             },
             createUI: function() {
-                var uIFooter = new UIFooter();
+                this.uIFooter = new UIFooter();
             },
             addGroup: function(groupName){
                 var uIGroup = this.getUIGroupByGroupName(groupName); 
@@ -48,6 +49,9 @@ define("UI/UIManager", ["UI/UIFooter", "UI/UIGroup"],
                     }
                 }
                 return null;
+            },
+            addWordIntoSearchBar: function(word){
+                this.uIFooter.addWordIntoSearchBar(word);
             }
         };
         UIManager.getInstance = function() {

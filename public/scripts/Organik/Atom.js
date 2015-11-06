@@ -191,7 +191,8 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 var dataUI = {
                     userName : '',
                     img : this.tweetData.user.profile_image_url,
-                    text : this.tweetData.text
+                    text : this.tweetData.text,
+                    entities : this.tweetData.entities 
                 }  
                 this.atomUI.createUI(dataUI);
             },

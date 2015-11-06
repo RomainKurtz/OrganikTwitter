@@ -31,7 +31,11 @@ html {
 
 #black {
     background-color: rgba(24, 25, 25, 0.53);
-    
+}
+
+.btn-footer{
+    padding-left: 10px!important;
+    padding-right: 10px!important;
 }
 
 .redFont {
@@ -75,6 +79,11 @@ html {
     border-bottom: 1px solid #111;
 }
 
+.button-footer{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
 .modalGroup {
     position: absolute!important;
     top: inherit!important;
@@ -88,6 +97,18 @@ html {
     width: 175px!important;
     background-color: rgba(74, 74, 74, 0.15)!important
 }
+
+.message a{
+    text-decoration: none;
+    color: inherit;
+    /*padding: 10px;
+    border: -10px;*/
+}
+
+.message a:hover {
+    /*text-decoration: underline;*/
+    background-color: red;
+ }
 
 .message {
     /*margin-top:-80px;*/

@@ -1,5 +1,5 @@
 define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager", "UI/UISettings"],
-    function( template, ServerMessageManager, UISettings) {
+    function(template, ServerMessageManager, UISettings) {
         // start method
         function UIFooter() {
             this._initialize();
@@ -19,12 +19,16 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
             },
             _buildUIBehaviour: function() {
 
-                ////Search button////
+                ////Search button and bar////
                 $('a#toggle-search').click(function() {
                     var search = $('div#search');
                     if (search.is(":visible")) {
-                        search.slideUp();
+                        //close bar
+                        search.slideUp(function() {
+                            search.find('input').val('');
+                        });
                     } else {
+                        //open bar :)
                         search.find('input').val('');
                         search.slideDown(function() {
                             search.find('input').focus();
@@ -43,7 +47,9 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
                         ServerMessageManager.getTweetbyHachtag(inputSearch.value);
                     }
                     var search = $('div#search');
-                    search.slideUp();
+                    search.slideUp(function() {
+                        search.find('input').val('');
+                    });
                     return false;
                 }.bind(this);
 
@@ -59,7 +65,21 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
                         };
                     }
                 });
+            },
+            addWordIntoSearchBar: function(word) {
+                var search = $('div#search');
+                var searchBarInput = search.find('input');
 
+                //if search bar is not empty and space before word
+                if (searchBarInput.val() === '') {
+                    searchBarInput.val(word);
+                } else {
+                    searchBarInput.val(searchBarInput.val() + ' ' + word);
+                }
+                // make the bar appear
+                search.slideDown(function() {
+                    search.find('input').focus();
+                });
             }
         }
         return UIFooter;
