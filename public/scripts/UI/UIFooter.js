@@ -1,5 +1,5 @@
-define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager", "UI/UISettings"],
-    function(template, ServerMessageManager, UISettings) {
+define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager", "UI/UISettings" , "Organik/CommandRecognitionManager"],
+    function(template, ServerMessageManager, UISettings, CommandRecognitionManager) {
         // start method
         function UIFooter() {
             this._initialize();
@@ -11,7 +11,7 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
             },
             createUI: function() {
                 var context = {
-                    searchbarPlaceholder: 'What galaxy are you looking for ? (#hachtag and @user works well)'
+                    searchbarPlaceholder: 'What galaxy are you looking for ? (#hachtag and @user works well)    (/stream : to steam only)'
                 };
                 $('body').append(template(context));
                 var uISettings = new UISettings();
@@ -44,7 +44,9 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
 
                 formSearch.onsubmit = function() {
                     if (inputSearch.value) {
-                        ServerMessageManager.getTweetbyHachtag(inputSearch.value);
+                       // ServerMessageManager.getTweetbyHachtag(inputSearch.value);
+                       CommandRecognitionManager.treatCommands(inputSearch.value);
+                       //ServerMessageManager.getTweetbyStreaming(inputSearch.value);
                     }
                     var search = $('div#search');
                     search.slideUp(function() {

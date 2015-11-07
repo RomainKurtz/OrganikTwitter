@@ -8,10 +8,13 @@ define("Organik/ServerMessageManager", ["socketio"],
             }
             this.SERVERADR = 'http://localhost:5000';
             this.socket = null;
-            this.tabEvent = [
-                {event : 'tweetArrived', callback : []},
-                {event : 'isOK', callback : []},
-            ];
+            this.tabEvent = [{
+                event: 'tweetArrived',
+                callback: []
+            }, {
+                event: 'isOK',
+                callback: []
+            }, ];
             this._initialize();
         }
         ServerMessageManager.prototype = {
@@ -19,34 +22,40 @@ define("Organik/ServerMessageManager", ["socketio"],
                 this.initSocket();
                 this.initSocketEvent();
             },
-            initSocket : function(){
+            initSocket: function() {
                 this.socket = io.connect(this.SERVERADR);
             },
-            initSocketEvent: function(){
+            initSocketEvent: function() {
                 //tweetArrived
                 this.socket.on(this.tabEvent[0].event, function(data) {
-                    for(var u = 0; u< this.tabEvent[0].callback.length;u++){
+                    for (var u = 0; u < this.tabEvent[0].callback.length; u++) {
                         this.tabEvent[0].callback[u](data);
                     }
                 }.bind(this));
             },
-            eventSubscriber: function(eventName, callback){
-                for(var i=0 ; i< this.tabEvent.length ; i++){
-                    if(this.tabEvent[i].event === eventName){
+            eventSubscriber: function(eventName, callback) {
+                for (var i = 0; i < this.tabEvent.length; i++) {
+                    if (this.tabEvent[i].event === eventName) {
                         this.tabEvent[i].callback.push(callback);
                     }
                 }
             },
-            eventUnsubscriber: function(id){
+            eventUnsubscriber: function(id) {
                 //todo : eventSubscriber return unique id
                 //       eventUnsubscriber remove this.tabEvent[i].callback associat at the ID
             },
-            eventSender: function(eventName, data){
+            eventSender: function(eventName, data) {
                 this.socket.emit(eventName, data)
             },
-            getTweetbyHachtag: function(hachtag){
+            getTweetbyHachtag: function(hachtag) {
                 this.eventSender('getTweetbyHachtag', hachtag);
-            } 
+            },
+            getTweetbyStreaming: function(hachtag) {
+                this.eventSender('getTweetbyStreaming', hachtag);
+            },
+            getTweet: function(param) {
+                this.eventSender('getTweet', param);
+            }
         };
         ServerMessageManager.getInstance = function() {
             // summary:

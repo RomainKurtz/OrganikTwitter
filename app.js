@@ -31,9 +31,45 @@
  io.on('connection', function(socket) {
      clientTabOfallTweet = [];
      console.log('New Socket Client !');
-     socket.on('getTweet', function() {
+     socket.on('getTweet1', function() {
          socket.emit('tweetArrived', allTweet);
      });
+     //-------------------------
+     socket.on('getTweet', function(getParam) {
+         if (getParam.getType === 'getTweetbyHachtag') {
+             var clientTabOfTweet = []
+             getTweetbyHachtag(getParam.getWord, clientTabOfTweet, function() {
+                 socket.emit('tweetArrived', {
+                     'tweetsData': clientTabOfTweet,
+                     'getParam': getParam
+                 });
+             });
+         } else if (getParam.getType === 'getTweetbyStreaming') {
+             getTweetbyStreaming(getParam.getWord, function(tweet) {
+                 socket.emit('tweetArrived', {
+                     'tweetsData': tweet,
+                     'getParam': getParam
+                 });
+             });
+         } else if (getParam.getType === 'getTweetbyHachtagAndStreaming') {
+             //Search
+             var clientTabOfTweet = []
+             getTweetbyHachtag(getParam.getWord, clientTabOfTweet, function() {
+                 socket.emit('tweetArrived', {
+                     'tweetsData': clientTabOfTweet,
+                     'getParam': getParam
+                 });
+             });
+             //Stream
+             getTweetbyStreaming(getParam.getWord, function(tweet) {
+                 socket.emit('tweetArrived', {
+                     'tweetsData': tweet,
+                     'getParam': getParam
+                 });
+             });
+         }
+     });
+     //--------------------------
      socket.on('getTweetbyHachtag', function(hachtag) {
          var getParam = {
              getType: 'getTweetbyHachtag',
@@ -49,6 +85,20 @@
              //clientTabOfallTweet add clientTabOfTweet
          });
      });
+     //----------------------------
+     socket.on('getTweetbyStreaming', function(wordToStream) {
+         var getParam = {
+             getType: 'getTweetbyStreaming',
+             period: '',
+             getWord: wordToStream,
+         }
+         getTweetbyStreaming(wordToStream, function(tweet) {
+             socket.emit('tweetArrived', {
+                 'tweetsData': tweet,
+                 'getParam': getParam
+             });
+         });
+     })
  });
 
  var Twitter = require('twitter');
@@ -56,16 +106,15 @@
  // Put your twitter api id here
  var client = new Twitter({
 
+     
+
+     request_options: {
+        
+     }
  });
 
  function getTweetbyHachtag(hachtag, allTweet, callback) {
      console.log(callback);
-     //var twitter_word_to_search = 'michel+et+augustin';
-     //var twitter_word_to_search = 'Francois+Hollande';
-     //var twitter_word_to_search = '#jefaisdestestsaveclapi';
-     // var twitter_word_to_search = '#republique';
-     //var twitter_word_to_search = 'Dassault+Systemes';
-     //var twitter_word_to_search = 'Leonardo+vinci';
      var twitter_word_to_search = hachtag;
      var NUMBEROFDAY = 0; // 0 : Only today | 1: today + yesterday ...
 
@@ -111,27 +160,22 @@
  // }); 
 
  //// STREAMING ////
- var twitter_word_to_search = 'sdfsdfsdfsdfsdsddfsdfsdf';
- client.stream('statuses/filter', {
-     track: twitter_word_to_search
- }, function(stream) {
-     console.log('Livestream tweet with : ' + twitter_word_to_search)
-     stream.on('data', function(tweet) {
-         console.log(tweet.text);
+ function getTweetbyStreaming(word, callback) {
+     var twitter_word_to_stream = word;
+     client.stream('statuses/filter', {
+         track: twitter_word_to_stream
+     }, function(stream) {
+         console.log('Livestream tweet with : ' + twitter_word_to_stream)
+         stream.on('data', function(tweet) {
+             console.log(tweet.text);
+             callback(tweet);
+         });
 
-         var getParam = {
-             getType: 'livestream',
-             period: '',
-             getWord: twitter_word_to_search,
-         }
-
-         io.sockets.emit('tweetArrived', { 'tweetsData':tweet , 'getParam': getParam});
+         stream.on('error', function(error) {
+             throw error;
+         });
      });
-
-     stream.on('error', function(error) {
-         throw error;
-     });
- });
+ }
 
 
  //////////////// UTILITIES ////////////////
