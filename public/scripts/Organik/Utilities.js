@@ -29,6 +29,9 @@ define("Organik/Utilities", ["three", "Organik/CameraManager", "Organik/RenderMa
             createDomID: function(){
                 var uniq = 'id' + (new Date()).getTime();
                 return uniq;
+            },
+            createID: function(){
+                return (new Date()).getTime();
             }
 
         };

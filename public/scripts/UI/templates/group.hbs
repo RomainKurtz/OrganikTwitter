@@ -1,7 +1,7 @@
 <span id="span-{{id}}">
     <!-- Button Group -->
     <a id="button-{{id}}"class="waves-effect waves-light btn black btn-footer" data-target="modal-{{id}}">
-    <i class="material-icons right">input</i><i class="material-icons left">stop</i>{{groupName}}</a>
+    <i class="material-icons right">input</i><i class="material-icons left">stop</i>{{groupName}}</a> 
 
     <!-- Modal group options -->
     <div id="modal-{{id}}" class="modal modalGroup">
@@ -29,10 +29,11 @@
                   <option value="#339DFF">Light Blue</option>
                 </select>
             </div>
-            <!-- Do switch button for realtime -->
-            <!-- Do Reset Button  -->
-            <!-- DeleteButton do the unsubscribe thing -->
-             <a id="buttonDelete-{{id}}"class="waves-effect waves-teal btn-flat redFont"><i class="material-icons left">delete</i>Delete</a>
+            <div class="switch">
+                <label> Stop <input id="liveSubscriberSwitch-{{id}}" type="checkbox" checked><span class="lever"></span> Live</label>
+            </div>
+            <a id="buttonReset-{{id}}"class="waves-effect waves-teal btn-flat redFont"><i class="material-icons left">settings_backup_restore</i>Reset</a>
+            <a id="buttonDelete-{{id}}"class="waves-effect waves-teal btn-flat redFont"><i class="material-icons left">delete</i>Delete</a>
 
         </div>
     </div>

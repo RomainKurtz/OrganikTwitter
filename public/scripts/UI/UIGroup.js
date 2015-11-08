@@ -1,5 +1,5 @@
-define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/AtomManager', 'colorPicker'],
-    function(template, Utilities, AtomManager, colorPicker) {
+define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/AtomManager', 'colorPicker', "Organik/ServerMessageManager"],
+    function(template, Utilities, AtomManager, colorPicker, ServerMessageManager) {
         // start method
         function UIGroup(groupName, UIManager) {
             this.groupName = groupName;
@@ -42,7 +42,9 @@ define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/At
                 }.bind(this));
 
                 //Set the activity icon invisible 
-                $('#button-' + this.id).children('.right').css({opacity:0});
+                $('#button-' + this.id).children('.right').css({
+                    opacity: 0
+                });
 
                 ////Modal////
                 //Ratio : Hide/show//
@@ -87,9 +89,36 @@ define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/At
                     this.colorIcon(colorpicker.val());
                 }.bind(this));
 
+                //Switch Unsubscribe//
+                var liveSubscriberSwitch = $('#liveSubscriberSwitch-' + this.id);
+                liveSubscriberSwitch.change(function() {
+                    if (liveSubscriberSwitch.is(':checked')) {
+                        ServerMessageManager.subscribeStreamingTweet(this.groupName);
+                    } else {
+                        ServerMessageManager.unsubscribeStreamingTweet(this.groupName);
+                    }
+                }.bind(this));
+
+                //Button Reset//
+                // reset le numbre de planet
+                var buttonReset = $('#buttonReset-' + this.id);
+                buttonReset.click(function() {
+                    if (switchcolorpicker.is(':checked')) {
+                        switchcolorpicker.prop('checked', false);
+                        var colorpickerDiv = $('#divColorPicker-' + this.id);
+                        colorpickerDiv.animate({
+                            height: '0px'
+                        }, 300);
+                    }
+                    AtomManager.deleteGroupByName(this.groupName);
+                    this.updateUI();
+                }.bind(this));
+
+
                 //Button Delete//
                 var buttonDelete = $('#buttonDelete-' + this.id);
                 buttonDelete.click(function() {
+                    ServerMessageManager.unsubscribeStreamingTweet(this.groupName);
                     AtomManager.deleteGroupByName(this.groupName);
                     this.UIManager.removeGroupByName(this.groupName);
                 }.bind(this));
@@ -103,9 +132,11 @@ define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/At
                 $('#titre-' + this.id).text(AtomManager.getGroupLengthbyGroupName(this.groupName) + ' PLANETS')
                 this.animateIconActivity();
             },
-            colorIcon: function(color){
+            colorIcon: function(color) {
                 var iconSignal = $('#button-' + this.id).children('.left');
-                iconSignal.css({color: color});
+                iconSignal.css({
+                    color: color
+                });
             },
             animateIconActivity: function() {
                 //Button group icon activity

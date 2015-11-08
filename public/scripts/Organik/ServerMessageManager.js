@@ -1,5 +1,5 @@
-define("Organik/ServerMessageManager", ["socketio"],
-    function(io) {
+define("Organik/ServerMessageManager", ["socketio", "Organik/Utilities"],
+    function(io, Utilities) {
         var instance = null;
 
         function ServerMessageManager() {
@@ -8,6 +8,8 @@ define("Organik/ServerMessageManager", ["socketio"],
             }
             this.SERVERADR = 'http://localhost:5000';
             this.socket = null;
+
+            //Define all event here
             this.tabEvent = [{
                 event: 'tweetArrived',
                 callback: []
@@ -29,20 +31,28 @@ define("Organik/ServerMessageManager", ["socketio"],
                 //tweetArrived
                 this.socket.on(this.tabEvent[0].event, function(data) {
                     for (var u = 0; u < this.tabEvent[0].callback.length; u++) {
-                        this.tabEvent[0].callback[u](data);
+                        this.tabEvent[0].callback[u].callback(data);
                     }
                 }.bind(this));
             },
             eventSubscriber: function(eventName, callback) {
                 for (var i = 0; i < this.tabEvent.length; i++) {
                     if (this.tabEvent[i].event === eventName) {
-                        this.tabEvent[i].callback.push(callback);
+                        var id = Utilities.createID();
+                        this.tabEvent[i].callback.push({
+                            'callback': callback,
+                            'id': id
+                        });
+                        return id;
                     }
                 }
             },
             eventUnsubscriber: function(id) {
-                //todo : eventSubscriber return unique id
-                //       eventUnsubscriber remove this.tabEvent[i].callback associat at the ID
+                for (var i = 0; i < this.tabEvent.length; i++) {
+                    if (this.tabEvent[i].callback.id === id) {
+                        this.tabEvent.split(i, 1);
+                    }
+                }
             },
             eventSender: function(eventName, data) {
                 this.socket.emit(eventName, data)
@@ -51,10 +61,17 @@ define("Organik/ServerMessageManager", ["socketio"],
                 this.eventSender('getTweetbyHachtag', hachtag);
             },
             getTweetbyStreaming: function(hachtag) {
+                console.log("DEPRECATE use subscribeStreamingTweet()")
                 this.eventSender('getTweetbyStreaming', hachtag);
             },
             getTweet: function(param) {
                 this.eventSender('getTweet', param);
+            },
+            subscribeStreamingTweet: function(trackWord){
+                this.eventSender('getTweetbyStreaming', trackWord);
+            },
+            unsubscribeStreamingTweet: function(trackWord){
+                this.eventSender('unsubscribeStreaming', trackWord);
             }
         };
         ServerMessageManager.getInstance = function() {

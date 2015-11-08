@@ -26,7 +26,7 @@
  });
 
  //////////////// TWITTER ////////////////
-
+ var ArrayOfStream = [];
  var io = require('socket.io').listen(server);
  io.on('connection', function(socket) {
      clientTabOfallTweet = [];
@@ -99,6 +99,16 @@
              });
          });
      })
+     //----------------------------
+     socket.on('unsubscribeStreaming', function(wordToUntrack){
+        for(var i = 0 ; i< ArrayOfStream.length ; i++) {
+         if(ArrayOfStream[i].track === wordToUntrack){
+            console.log('UNTRACK '+ wordToUntrack);
+            ArrayOfStream[i].stream.destroy();
+            ArrayOfStream.splice(i,1);
+         }
+        }
+     })
  });
 
  var Twitter = require('twitter');
@@ -106,10 +116,8 @@
  // Put your twitter api id here
  var client = new Twitter({
 
-     
-
      request_options: {
-        
+         
      }
  });
 
@@ -165,7 +173,11 @@
      client.stream('statuses/filter', {
          track: twitter_word_to_stream
      }, function(stream) {
-         console.log('Livestream tweet with : ' + twitter_word_to_stream)
+         console.log('Livestream tweet with : ' + twitter_word_to_stream);
+         ArrayOfStream.push({
+             track: twitter_word_to_stream,
+             stream: stream
+         });
          stream.on('data', function(tweet) {
              console.log(tweet.text);
              callback(tweet);
@@ -175,6 +187,7 @@
              throw error;
          });
      });
+     console.log(client.stream)
  }
 
 
