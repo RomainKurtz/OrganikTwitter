@@ -21,6 +21,9 @@ define("Organik/CommandRecognitionManager", ["Organik/ServerMessageManager"],
                     commandText: '/stream',
                     Commandvalue: this.CommandEnum.STREAM
                 }, {
+                    commandText: '/s',
+                    Commandvalue: this.CommandEnum.STREAM
+                }, {
                     commandText: '/search',
                     Commandvalue: this.CommandEnum.SEARCH
                 }]
@@ -41,7 +44,7 @@ define("Organik/CommandRecognitionManager", ["Organik/ServerMessageManager"],
                             arrayOfCommandTreated.push({
                                 text: arrayOfString[i],
                                 arguments: [],
-                                error : ''
+                                error: ''
                             });
                         }
                         textIndex = i;
@@ -51,17 +54,17 @@ define("Organik/CommandRecognitionManager", ["Organik/ServerMessageManager"],
                             if (arrayOfString[i].indexOf(this.commandArray[u].commandText) !== -1) {
                                 if (arrayOfCommandTreated.length === 0) {
                                     this._errorMessage();
-                                   // arrayOfCommandTreated[i].error = true;
+                                    // arrayOfCommandTreated[i].error = true;
                                     break;
                                 }
                                 arrayOfCommandTreated[arrayOfCommandTreated.length - 1].arguments.push(this.commandArray[u]);
                                 findCommand = true;
-                            }else{
-                                if(!findCommand && (u === this.commandArray.length -1)){
-                                    if(arrayOfCommandTreated.length === 0){
+                            } else {
+                                if (!findCommand && (u === this.commandArray.length - 1)) {
+                                    if (arrayOfCommandTreated.length === 0) {
                                         this._errorMessage('Error syntax text don\'t find');
-                                    }else{
-                                        arrayOfCommandTreated[arrayOfCommandTreated.length - 1].error += 'Error syntax argument unknown : '+ arrayOfString[i];
+                                    } else {
+                                        arrayOfCommandTreated[arrayOfCommandTreated.length - 1].error += 'Error syntax argument unknown : ' + arrayOfString[i];
                                     }
                                 }
                             }
@@ -72,7 +75,7 @@ define("Organik/CommandRecognitionManager", ["Organik/ServerMessageManager"],
                 for (var i = 0; i < arrayOfCommandTreated.length; i++) {
                     if (arrayOfCommandTreated[i].text === '' || arrayOfCommandTreated[i].error) {
                         this._errorMessage(arrayOfCommandTreated[i].error);
-                        arrayOfCommandTreated.splice(i, 1); 
+                        arrayOfCommandTreated.splice(i, 1);
                         i--;
                     }
                 }
@@ -111,16 +114,16 @@ define("Organik/CommandRecognitionManager", ["Organik/ServerMessageManager"],
                 }
             },
             _errorMessage: function(error) {
-                if(!error){
-                Materialize.toast('Error syntax in command parameters', 4000);
-                }else{
+                if (!error) {
+                    Materialize.toast('Error syntax in command parameters', 4000);
+                } else {
                     Materialize.toast(error, 4000);
                 }
             },
             _successMessage: function(success) {
-                if(!success){
-                Materialize.toast('Galaxy in comming ...', 4000);
-                }else{
+                if (!success) {
+                    Materialize.toast('Galaxy in comming ...', 4000);
+                } else {
                     Materialize.toast(error, 4000);
                 }
             }

@@ -8,6 +8,7 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
+    min-height: 100%; /* I just adding this */
     overflow: hidden;
 }
 
@@ -33,7 +34,7 @@ html {
     background-color: rgba(24, 25, 25, 0.53);
 }
 
-.btn-footer{
+.btn-footer {
     padding-left: 10px!important;
     padding-right: 10px!important;
 }
@@ -47,9 +48,8 @@ html {
 }
 
 .greyFont {
-     color: #9e9e9e!important;
+    color: #9e9e9e!important;
 }
-
 
 .divColorPicker {
     height: 0px;
@@ -83,7 +83,7 @@ html {
     border-bottom: 1px solid #111;
 }
 
-.button-footer{
+.button-footer {
     padding-right: 10px;
     padding-left: 10px;
 }
@@ -102,7 +102,7 @@ html {
     background-color: rgba(74, 74, 74, 0.15)!important
 }
 
-.message a{
+.message a {
     text-decoration: none;
     color: inherit;
     /*padding: 10px;
@@ -112,46 +112,47 @@ html {
 .message a:hover {
     /*text-decoration: underline;*/
     background-color: red;
- }
+}
 
 .message {
     /*margin-top:-80px;*/
+    display: table;
     border-radius: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding : 20px;
     box-shadow: 0 0 2px rgba(0, 0, 0, .5);
     border: 0;
     margin: 0 auto;
-    height: 80px;
-    line-height: 80px;
+    /*height: 80px;*/
+    /*line-height: 80px;*/
     overflow: hidden;
     position: absolute;
-    text-align: center;
+    
     color: #fff;
     background: rgba(170, 170, 170, 0.168627);
-    opacity: 1;
+    opacity: 0.5;
     font-family: "Roboto", sans-serif;
     display: inline-block;
-    /*
-    -webkit-transform:scale(0) rotate(-12deg);
-    -ms-transform: scale(0) rotate(-12deg); /* IE 9 */
-    -webkit-transition: .25s;
-    /* For Safari 3.1 to 6.0 */
-    transition: opacity .25s;
-    /*IF YOU CHANGE THE ANIMATION DURATION BE CAREFULL OF THE VALUE 
-    IN THE SetTimeout in the removeLayer2D() IN Atom.js*/
-    -webkit-animation-name: fadeIn;
-    /* Chrome, Safari, Opera */
-    -webkit-animation-duration: .5s;
-    /* Chrome, Safari, Opera */
-    animation-name: fadeIn;
-    animation-duration: .5s;
+    max-width: 400px;
+}
+
+.messageTextContent {
+    padding-left: 10px;
+     display: table-cell;
+     vertical-align: middle;
+    max-width: 400px;
+    line-height: 20px;
+    text-align: left;
+}
+.messageImg{
+    vertical-align: middle;
+     display: table-cell;
+
 }
 
 .titreGroup {
- color: #9e9e9e;
- margin: auto;
- font-size: 13px;
+    color: #9e9e9e;
+    margin: auto;
+    font-size: 13px;
 }
 
 .message img {
@@ -161,56 +162,4 @@ html {
     border-radius: 24px;
     -webkit-border-radius: 24px;
     -moz-border-radius: 24px;
-}
-
-
-/* Chrome, Safari, Opera */
-
-@-webkit-keyframes fadeIn {
-    from {
-        opacity: 0;
-        scale: 0
-    }
-    to {
-        opacity: 1;
-        scale: 1
-    }
-}
-
-
-/* Standard syntax */
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        /* transform: scale(0.5) rotate(-22deg);*/
-    }
-    to {
-        opacity: 1;
-        /*transform: scale(1) rotate(0deg);*/
-    }
-}
-
-
-/* Chrome, Safari, Opera */
-
-@-webkit-keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-
-
-/* Standard syntax */
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
 }

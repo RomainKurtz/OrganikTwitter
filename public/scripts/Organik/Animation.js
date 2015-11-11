@@ -1,5 +1,5 @@
-define("Organik/Animation", ["three", "tweenjs", "Organik/RenderManager"],
-    function(THREE, TWEEN , RenderManager) {
+define("Organik/Animation", ["three", "tweenjs", "Organik/RenderManager", "Organik/Utilities"],
+    function(THREE, TWEEN , RenderManager, Utilities) {
         var instance = null;
 
         function Animation() {
@@ -12,6 +12,7 @@ define("Organik/Animation", ["three", "tweenjs", "Organik/RenderManager"],
             _initialize: function() {
                 // summary:
                 // Initializes the singleton. 
+                this.animationArray =[];
                 RenderManager.addOneCallbackToRenderer(this.renderAnimation, this);
             },   
             renderAnimation: function(iMe){
@@ -28,7 +29,6 @@ define("Organik/Animation", ["three", "tweenjs", "Organik/RenderManager"],
             },
             createAnimation: function(variablesStart, variableEnd, duration, easing, onUpdate, onComplete){
                 //graph : http://sole.github.io/tween.js/examples/03_graphs.html
-                
                 if(!onUpdate){onUpdate = function(){}};
                 if(!onComplete){onComplete = function(){}};
                 if(!easing){ easing = TWEEN.Easing.Linear.None}
@@ -37,12 +37,17 @@ define("Organik/Animation", ["three", "tweenjs", "Organik/RenderManager"],
                     easing = TWEEN.Easing[path[0]][path[1]];
                 };
                 
-                new TWEEN.Tween(variablesStart)
+                var tween = new TWEEN.Tween(variablesStart)
                 .to( variableEnd , duration)
                 .easing(easing)
                 .onUpdate(function() {onUpdate()})
                 .onComplete(function() {onComplete()})
                 .start();
+
+                return tween;
+            },
+            deleteAnimationbyTween: function(tween){
+                TWEEN.remove(tween);
             }
         };
         Animation.getInstance = function() {

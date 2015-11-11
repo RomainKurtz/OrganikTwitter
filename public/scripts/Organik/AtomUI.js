@@ -1,5 +1,5 @@
-define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtilities"],
-    function(Animation, UILinkManager, UIUtilities) {
+define("Organik/AtomUI", ["hbs!UI/templates/atom", "Organik/Animation", "UI/UILinkManager", "UI/UIUtilities", "Organik/Utilities"],
+    function(template, Animation, UILinkManager, UIUtilities, Utilities) {
         // start method
         function AtomUI() {
             this._initialize();
@@ -12,12 +12,21 @@ define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtiliti
                 this.divUserName = null;
                 this.divText = null;
 
-                this.divIsCreate = false
+                this.divIsCreate = false;
                 this.divIsActive = false;
                 this.param = null;
+                this.tweenAnimationFadeOut = null;
+                this.UIFadeOutAnimationComplete = true;
+                this.DomElementID = Utilities.createDomID();
             },
             createUI: function(param) {
-                if (this.UICreated()) {
+                if (!this.UIFadeOutAnimationComplete) { // In case UI is reactived before the fadeOut complete.
+                    Animation.deleteAnimationbyTween(this.tweenAnimationFadeOut);
+                    this.divIsCreate = true;
+                    this.divIsActive = true;
+                    this.UIFadeInAnimation();
+
+                } else if (this.UICreated()) {
                     this.deleteUI();
                 }
                 if (!this.UICreated()) {
@@ -25,14 +34,28 @@ define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtiliti
                     this.divImgUrl = this.param.img;
                     this.divUserName = this.param.userName;
                     this.divText = this.computeTextLinks(this.param);
-                    this.domElement = document.createElement('div')
+
+                    var context = {
+                        id: this.DomElementID,
+                        imgAvatar: this.divImgUrl,
+                    };
+
+                    var texxt = template(context);
+                    //$('body').append(template(context));
+
+                    //this.domElement = document.getElementById("div-" + this.DomElementID);
+                    //Bad way use context with Handellbars
+                    var div = document.createElement('div');
+                    div.innerHTML = texxt;
+                    this.domElement = div.childNodes[0];
                     document.body.appendChild(this.domElement);
-                    this.domElement.innerHTML = '<img src=\"' + this.divImgUrl + '\"/> ' + this.divText;
-                    this.domElement.className = 'message';
+                    document.getElementById("textContent-" + this.DomElementID).innerHTML = this.divText;
+
 
                     this.divIsCreate = true;
                     this.divIsActive = true;
 
+                    this.UIFadeInAnimation();
                     this._buildUIBehaviour();
                 }
 
@@ -45,16 +68,19 @@ define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtiliti
             },
             deleteUI: function() {
                 if (this.divIsCreate) {
-                    Animation.setTimeout(function() {
+                    this.UIFadeOutAnimation(function() {
+
+                        this.UIFadeOutAnimationComplete = true;
                         if (this.domElement) {
-                            this.domElement.parentNode.removeChild(this.domElement);
-                            this.domElement = null;
-                            this.divIsCreate = false;
-                            this.divIsActive = false;
+                            if (this.domElement.parentNode) {
+                                this.domElement.parentNode.removeChild(this.domElement);
+                                this.domElement = null;
+                                this.divIsCreate = false;
+                                this.divIsActive = false;
+                            }
+
                         }
-                    }.bind(this), 300);
-                    this.domElement.style.animationName = "fadeOut";
-                    this.domElement.style.opacity = '0';
+                    }.bind(this));
 
                 }
             },
@@ -73,7 +99,7 @@ define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtiliti
             setPosition: function(position2D) {
                 var boundingRect = this.domElement.getBoundingClientRect();
                 var left = (position2D.x - boundingRect.width / 2);
-                var top = (position2D.y - boundingRect.height / 2 - 45);
+                var top = (position2D.y - boundingRect.height - 10);
                 this.domElement.style.left = left + 'px';
                 this.domElement.style.top = top + 'px';
             },
@@ -84,7 +110,7 @@ define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtiliti
                 return this.divIsCreate;
             },
             computeTextLinks: function(param) {
-            
+
                 var innerHTML = param.text;
                 var entities = [];
 
@@ -154,7 +180,7 @@ define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtiliti
                     // Don't link something if it is out of the limit of twitter
                     // Usefull for retweet
                     if (index1 + keyword.length < 140) {
-                        if (linkType==='externalLink'){
+                        if (linkType === 'externalLink') {
                             keyword = encodeURI(keyword);
                         }
                         var stringFirstPart = "<a href=\"#" + keyword + "?type=" + linkType + "\">";
@@ -165,6 +191,27 @@ define("Organik/AtomUI", ["Organik/Animation", "UI/UILinkManager", "UI/UIUtiliti
                     return textRef;
                 }
 
+            },
+            UIFadeInAnimation: function() {
+                this.UIFadeInAnimationValue = parseFloat(this.domElement.style.opacity);
+                Animation.createAnimation(this, {
+                    UIFadeInAnimationValue: 1
+                }, 250, '', function() {
+                    this.domElement.style.opacity = this.UIFadeInAnimationValue.toString();
+                }.bind(this));
+            },
+            UIFadeOutAnimation: function(onComplete) {
+                this.UIFadeOutAnimationComplete = false;
+                this.UIFadeOutAnimationValue = parseFloat(this.domElement.style.opacity);
+                this.tweenAnimationFadeOut = Animation.createAnimation(this, {
+                    UIFadeOutAnimationValue: 0
+                }, 250, '', function() {
+                    if (this.domElement) {
+                        this.domElement.style.opacity = this.UIFadeOutAnimationValue.toString();
+                    }
+                }.bind(this), function() {
+                    onComplete();
+                });
             }
 
         }
