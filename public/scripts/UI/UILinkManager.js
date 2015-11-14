@@ -17,7 +17,7 @@ define("UI/UILinkManager", ["UI/UIManager"],
                 //remove the first '#'
                 var pathwithouhach = path.slice(1);
                 //get the link part and the type part
-                var pathArray = pathwithouhach.split( '?type=' );
+                var pathArray = pathwithouhach.split('?type=');
                 var type = pathArray[1];
                 var link = pathArray[0];
                 // select what to do in case of type
@@ -25,8 +25,10 @@ define("UI/UILinkManager", ["UI/UIManager"],
                     UIManager.addWordIntoSearchBar(link);
                 } else if (type === 'externalLink') {
                     window.open(link);
+                } else if (type === 'media') {
+                    window.open(link);
                 } else {
-                   UIManager.addWordIntoSearchBar(link);
+                    UIManager.addWordIntoSearchBar(link);
                 }
             },
 

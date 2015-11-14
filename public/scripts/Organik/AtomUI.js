@@ -40,13 +40,13 @@ define("Organik/AtomUI", ["hbs!UI/templates/atom", "Organik/Animation", "UI/UILi
                         imgAvatar: this.divImgUrl,
                     };
 
-                    var texxt = template(context);
+                    var templatePlainText = template(context);
                     //$('body').append(template(context));
 
                     //this.domElement = document.getElementById("div-" + this.DomElementID);
                     //Bad way use context with Handellbars
                     var div = document.createElement('div');
-                    div.innerHTML = texxt;
+                    div.innerHTML = templatePlainText;
                     this.domElement = div.childNodes[0];
                     document.body.appendChild(this.domElement);
                     document.getElementById("textContent-" + this.DomElementID).innerHTML = this.divText;
@@ -149,6 +149,18 @@ define("Organik/AtomUI", ["hbs!UI/templates/atom", "Organik/Animation", "UI/UILi
                             indices: param.entities.hashtags[o].indices,
                             type: 'hashtag'
                         });
+                    }
+                }
+                // media : exemple (media url)
+                if (param.entities.media) {
+                    if (param.entities.media.length > 0) {
+                        for (var j = 0; j < param.entities.media.length; j++) {
+                            entities.push({
+                                text: param.entities.media[j].display_url,
+                                indices: param.entities.media[j].indices,
+                                type: 'media'
+                            });
+                        }
                     }
                 }
 

@@ -8,7 +8,8 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
-    min-height: 100%; /* I just adding this */
+    min-height: 100%;
+    /* I just adding this */
     overflow: hidden;
 }
 
@@ -117,16 +118,15 @@ html {
 .message {
     /*margin-top:-80px;*/
     display: table;
-    border-radius: 3px;
-    padding : 20px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, .5);
+    /*border-radius: 3px;*/
+    /*padding : 20px;*/
+    /*box-shadow: 0 0 2px rgba(0, 0, 0, .5);*/
     border: 0;
     margin: 0 auto;
     /*height: 80px;*/
     /*line-height: 80px;*/
     overflow: hidden;
     position: absolute;
-    
     color: #fff;
     background: rgba(170, 170, 170, 0.168627);
     opacity: 0.5;
@@ -137,16 +137,18 @@ html {
 
 .messageTextContent {
     padding-left: 10px;
-     display: table-cell;
-     vertical-align: middle;
+    padding-right: 10px;
+    display: table-cell;
+    vertical-align: middle;
     max-width: 400px;
     line-height: 20px;
     text-align: left;
+    font-size: 12px;
 }
-.messageImg{
-    vertical-align: middle;
-     display: table-cell;
 
+.messageImg {
+    vertical-align: middle;
+    display: table-cell;
 }
 
 .titreGroup {
@@ -157,9 +159,9 @@ html {
 
 .message img {
     vertical-align: middle;
-    width: 48px;
-    height: 48px;
-    border-radius: 24px;
+    width: 100px;
+    height: 100px;
+    /*border-radius: 24px;
     -webkit-border-radius: 24px;
-    -moz-border-radius: 24px;
+    -moz-border-radius: 24px;*/
 }

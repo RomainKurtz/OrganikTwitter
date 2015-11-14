@@ -188,11 +188,12 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
             * AtomUI 
             */
             createLayer2D: function() {
+                var img = this.tweetData.user.profile_image_url.replace('normal', 'bigger');
                 var dataUI = {
                     userName : '',
-                    img : this.tweetData.user.profile_image_url,
+                    img : img,
                     text : this.tweetData.text,
-                    entities : this.tweetData.entities 
+                    entities : this.tweetData.entities,
                 }  
                 this.atomUI.createUI(dataUI);
             },

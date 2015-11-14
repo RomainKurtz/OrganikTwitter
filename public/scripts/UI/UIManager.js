@@ -52,6 +52,10 @@ define("UI/UIManager", ["UI/UIFooter", "UI/UIGroup"],
             },
             addWordIntoSearchBar: function(word){
                 this.uIFooter.addWordIntoSearchBar(word);
+            },
+            createNotification: function(message, duration){
+                var time = (duration)?duration:4000;
+                Materialize.toast(message, time);
             }
         };
         UIManager.getInstance = function() {
