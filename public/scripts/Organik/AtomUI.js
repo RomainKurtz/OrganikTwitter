@@ -153,6 +153,7 @@ define("Organik/AtomUI", ["hbs!UI/templates/atom", "Organik/Animation", "UI/UILi
                 }
                 // media : exemple (media url)
                 if (param.entities.media) {
+                    UIUtilities.modifyIndicesFromUnicodeToUTF16(param.text, param.entities.media);
                     if (param.entities.media.length > 0) {
                         for (var j = 0; j < param.entities.media.length; j++) {
                             entities.push({

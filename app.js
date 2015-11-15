@@ -36,6 +36,11 @@
      });
      //-------------------------
      socket.on('getTweet', function(getParam) {
+        // This emit is for create the ui group on the client
+         socket.emit('tweetArrived', {
+             'tweetsData': [],
+             'getParam': getParam
+         });
          if (getParam.getType === 'getTweetbyHachtag') {
              var clientTabOfTweet = []
              getTweetbyHachtag(getParam.getWord, clientTabOfTweet, function() {
@@ -87,27 +92,27 @@
      });
      //----------------------------
      socket.on('getTweetbyStreaming', function(wordToStream) {
-         var getParam = {
-             getType: 'getTweetbyStreaming',
-             period: '',
-             getWord: wordToStream,
-         }
-         getTweetbyStreaming(wordToStream, function(tweet) {
-             socket.emit('tweetArrived', {
-                 'tweetsData': tweet,
-                 'getParam': getParam
+             var getParam = {
+                 getType: 'getTweetbyStreaming',
+                 period: '',
+                 getWord: wordToStream,
+             }
+             getTweetbyStreaming(wordToStream, function(tweet) {
+                 socket.emit('tweetArrived', {
+                     'tweetsData': tweet,
+                     'getParam': getParam
+                 });
              });
-         });
-     })
-     //----------------------------
-     socket.on('unsubscribeStreaming', function(wordToUntrack){
-        for(var i = 0 ; i< ArrayOfStream.length ; i++) {
-         if(ArrayOfStream[i].track === wordToUntrack){
-            console.log('UNTRACK '+ wordToUntrack);
-            ArrayOfStream[i].stream.destroy();
-            ArrayOfStream.splice(i,1);
+         })
+         //----------------------------
+     socket.on('unsubscribeStreaming', function(wordToUntrack) {
+         for (var i = 0; i < ArrayOfStream.length; i++) {
+             if (ArrayOfStream[i].track === wordToUntrack) {
+                 console.log('UNTRACK ' + wordToUntrack);
+                 ArrayOfStream[i].stream.destroy();
+                 ArrayOfStream.splice(i, 1);
+             }
          }
-        }
      })
  });
 
@@ -115,6 +120,7 @@
 
  // Put your twitter api id here
  var client = new Twitter({
+
 
      request_options: {
          

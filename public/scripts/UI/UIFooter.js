@@ -1,4 +1,4 @@
-define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager", "UI/UISettings" , "Organik/CommandRecognitionManager"],
+define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager", "UI/UISettings", "Organik/CommandRecognitionManager"],
     function(template, ServerMessageManager, UISettings, CommandRecognitionManager) {
         // start method
         function UIFooter() {
@@ -11,7 +11,7 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
             },
             createUI: function() {
                 var context = {
-                    searchbarPlaceholder: 'What galaxy are you looking for ? (#hachtag and @user works well)    (/stream : to steam only)'
+                    searchbarPlaceholder: 'What galaxy are you looking for ? (#hashtag and @user works well)    (/stream : to steam only)'
                 };
                 $('body').append(template(context));
                 var uISettings = new UISettings();
@@ -24,6 +24,7 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
                     var search = $('div#search');
                     if (search.is(":visible")) {
                         //close bar
+                        this.launchCommand();
                         search.slideUp(function() {
                             search.find('input').val('');
                         });
@@ -35,23 +36,13 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
                         });
                     }
                     return false;
-                });
+                }.bind(this));
 
                 ////Search bar////
                 var formSearch = document.getElementById("searchFrom");
-                var divSearch = document.getElementById("search");
-                var inputSearch = document.getElementById("input_Search");
 
                 formSearch.onsubmit = function() {
-                    if (inputSearch.value) {
-                       // ServerMessageManager.getTweetbyHachtag(inputSearch.value);
-                       CommandRecognitionManager.treatCommands(inputSearch.value);
-                       //ServerMessageManager.getTweetbyStreaming(inputSearch.value);
-                    }
-                    var search = $('div#search');
-                    search.slideUp(function() {
-                        search.find('input').val('');
-                    });
+                    this.launchCommand();
                     return false;
                 }.bind(this);
 
@@ -66,6 +57,18 @@ define("UI/UIFooter", ['hbs!UI/templates/footer', "Organik/ServerMessageManager"
                             });
                         };
                     }
+                });
+            },
+            launchCommand: function() {
+                var divSearch = document.getElementById("search");
+                var inputSearch = document.getElementById("input_Search");
+
+                if (inputSearch.value) {
+                    CommandRecognitionManager.treatCommands(inputSearch.value);
+                }
+                var search = $('div#search');
+                search.slideUp(function() {
+                    search.find('input').val('');
                 });
             },
             addWordIntoSearchBar: function(word) {

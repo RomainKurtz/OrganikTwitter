@@ -82,7 +82,7 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
             },
             setGroupAttributeToAtom: function(groupName, atom){
                 var group = this.getAtomsbyGroupName(groupName);
-                olderAtom = group[0];
+                var olderAtom = group[0];
                 atom.setGroupProperty('groupColor', olderAtom.getGroupColor());
                 atom.setGroupProperty('groupVisibility', olderAtom.getGroupVisibility());
             },

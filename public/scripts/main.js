@@ -9,7 +9,9 @@ requirejs(["three", "Organik/Atom", "Organik/CameraManager", "socketio", "UI/UIM
                 for (var i = 0; i < data.tweetsData.length; i++) {
                     createAtom(data.tweetsData[i], data.getParam.getWord);
                 }
-                UIManager.createNotification(data.tweetsData.length + ' planets added');
+                if (data.tweetsData.length > 0) {
+                    UIManager.createNotification(data.tweetsData.length + ' planets added');
+                }
                 UIManager.addGroup(data.getParam.getWord);
             } else {
                 createAtom(data.tweetsData, data.getParam.getWord);
