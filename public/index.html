@@ -1,58 +1,27 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Arago</title>
-    <link rel="stylesheet" type="text/css" href="./style/main.css">
-    <!--Import Google Icon Font-->
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import Materialize - Not work with AMD for now-->
-    <link type="text/css" rel="stylesheet" href="./bower_components/Materialize/dist/css/materialize.min.css" media="screen,projection" />
-    <script src="./bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="./bower_components/Materialize/dist/js/materialize.js"></script>
-    <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
-    <!-- Import template -->
-    <!--     <link rel="import" id="template-footer" href="./footer.html"> -->
-    <!--    <link rel="import" id="template-modalsettings" href="./modalSettings.html"> -->
-    <!-- End of Import template -->
-</head>
-<script type="text/javascript">
-require.config({
-    paths: {
-        text: "../bower_components/text/text",
-        three: '../bower_components/three.js/build/three.min',
-        trackballcontrols: '../bower_components/TrackballControls/index',
-        socketio: '/socket.io/socket.io',
-        threexObjcoord: '../bower_components/threex.objcoord/threex.objcoord',
-        threexDomevents: '../bower_components/threex.domevents/threex.domevents',
-        threeProjector: '../bower_components/three.js/examples/js/renderers/Projector',
-        tweenjs: '../bower_components/tween.js/src/Tween',
-        handlebars: '../bower_components/handlebars/handlebars.min',
-        colorPicker: '../bower_components/jquery-simplecolorpicker/jquery.simplecolorpicker',
-        hbs: '../bower_components/requirejs-hbs/hbs'
-    },
-    shim: {
-        trackballcontrols: {
-            deps: ['three']
-        },
-        threeProjector: {
-            deps: ['three'],
-        },
-        threexObjcoord: {
-            deps: ['three', 'threeProjector']
-        },
-        threexDomevents: {
-            deps: ['three']
-        },
-        handlebars: {
-            exports: 'Handlebars'
-        },
-    }
-});
-</script>
-<script type="text/javascript" src="scripts/ga.js"></script>
+    <head>
+        <title>Arago</title>
+        <link rel="stylesheet" type="text/css" href="./style/main.css">
+        
+        <!--Import Materialize - Not work with AMD for now-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="./bower_components/Materialize/dist/css/materialize.min.css" media="screen,projection" />
+        <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="./bower_components/Materialize/dist/js/materialize.js"></script>
+        <!-- End of Materialize -->
 
-<body>
-</body>
+        <!-- requireJS -->
+        <script data-main="scripts/main" src="./bower_components/requirejs/require.js"></script>
+        <script src="./scripts/require-config.js"></script>
+        <!-- End of requireJS -->
+        
+        <script type="text/javascript" src="scripts/ga.js"></script>
+    </head>
+    
+
+    <body>
+    </body>
 
 </html>

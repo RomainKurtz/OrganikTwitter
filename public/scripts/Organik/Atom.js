@@ -15,7 +15,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.highlighted = false;
                 this.objectAvatarHighlight = null;
                 this.groupProperties = {};
-                
+
                 this.atomUI = new AtomUI();
                 this.createAvatar();
                 this.treatTweetData();
@@ -26,21 +26,21 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 if (this.atomUI.UIActive()) {
                     this._updateLayer2DPosition();
                 }
-                if(this.objectAvatarHighlight){
+                if (this.objectAvatarHighlight) {
                     this.renderUpdateHighlightAvatar();
                 }
             },
             // If you want to delete atom use AtomManager.removeAtom(atom);
-            remove: function(){
+            remove: function() {
                 this.removeMouseInteraction();
-                if(this.isHighlighted()){
+                if (this.isHighlighted()) {
                     this.highlightExit();
                 }
                 this.deleteAvatar();
             },
             /*
-            * Set Position/Scale/Direction/Velocity 
-            */
+             * Set Position/Scale/Direction/Velocity 
+             */
             changePosition: function(newPos) {
                 this.objectAvatar.position.set(newPos.x, newPos.y, newPos.z);
             },
@@ -51,38 +51,42 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.velocity = newVelocity;
             },
             changeScale: function(scale, animation) {
-                if(animation){
+                if (animation) {
                     var newScale = scale;
                     var start = this.objectAvatar.scale;
-                    var end = {x : newScale, y : newScale, z : newScale}
+                    var end = {
+                        x: newScale,
+                        y: newScale,
+                        z: newScale
+                    }
                     Animation.createAnimation(start, end, 2000, 'Elastic.Out');
-                }else{
+                } else {
                     this.objectAvatar.scale.x = scale;
                     this.objectAvatar.scale.y = scale;
-                    this.objectAvatar.scale.z = scale;                                
+                    this.objectAvatar.scale.z = scale;
                 }
             },
-            changeColor: function(newColor){
+            changeColor: function(newColor) {
                 //If newColor don't define then we generate rendom color
-                if(!newColor){
+                if (!newColor) {
                     newColor = Math.random() * 0x808008 + 0x808080;
                 }
-                    var color = new THREE.Color( newColor );
-                    this.objectAvatar.material.color = color;
+                var color = new THREE.Color(newColor);
+                this.objectAvatar.material.color = color;
 
             },
-            getVisibility: function(){
+            getVisibility: function() {
                 return this.objectAvatar.visible;
             },
-            changeVisibility: function(visible){
-                if(this.isHighlighted()){
+            changeVisibility: function(visible) {
+                if (this.isHighlighted()) {
                     this.highlightExit();
                 }
                 this.objectAvatar.visible = visible;
             },
             /*
-            * Behaviour Part
-            */
+             * Behaviour Part
+             */
             behaviourUpdate: function() {
                 // move object
                 this.objectAvatar.translateOnAxis(this.direction, this.velocity);
@@ -101,8 +105,8 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 // end of next frame behaviour test
             },
             /*
-            * Avatar Part
-            */
+             * Avatar Part
+             */
             createAvatar: function() {
                 var map = THREE.ImageUtils.loadTexture("../img/atom.png");
                 var material = new THREE.SpriteMaterial({
@@ -112,12 +116,12 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.objectAvatar = new THREE.Sprite(material);
                 SceneManager.add(AtomManager.containerAtomsName, this.objectAvatar);
             },
-            deleteAvatar: function(){
+            deleteAvatar: function() {
                 SceneManager.remove(AtomManager.containerAtomsName, this.objectAvatar);
             },
             /*
-            * Random Position/Scale/Direction 
-            */
+             * Random Position/Scale/Direction 
+             */
             setRandomPosition: function() {
                 var axis = ['x', 'y', 'z'];
                 var newPos = new THREE.Vector3();
@@ -141,10 +145,15 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.direction.copy(newDir);
             },
             /*
-            * Twitter Part 
-            */
+             * Twitter Part 
+             */
             _computeTweetScale: function() {
-                var scale = this.tweetData.retweet_count/AtomManager.atomDownScaleCoeff;
+                // if (this.tweetData.retweeted_status) {
+                //     var retweet_count = this.tweetData.retweeted_status.retweet_count;
+                // } else {
+                    var retweet_count = this.tweetData.retweet_count;
+                // }
+                var scale = retweet_count / AtomManager.atomDownScaleCoeff;
                 if (scale === 0) {
                     //scale = 0.3;
                     scale = 1;
@@ -155,27 +164,30 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.tweetData = data;
                 this.treatTweetData();
             },
-            setGroupProperty: function(propertyName, property){
+            setGroupProperty: function(propertyName, property) {
                 this.groupProperties[propertyName] = property;
-                if(propertyName === 'groupName'){ //In case of name, go to AtomManager, get all the group properties
+                if (propertyName === 'groupName') { //In case of name, go to AtomManager, get all the group properties
                     AtomManager.setGroupAttributeToAtom(this.getGroupName(), this);
                 }
-                if(propertyName === 'groupColor'){
+                if (propertyName === 'groupColor') {
                     this.changeColor(property);
                 }
-                if(propertyName === 'groupVisibility'){
+                if (propertyName === 'groupVisibility') {
                     this.changeVisibility(property)
                 }
-        
+
             },
-            getGroupName: function(){
+            getGroupName: function() {
                 return this.groupProperties.groupName;
             },
-            getGroupColor: function(){
+            getGroupColor: function() {
                 return this.groupProperties.groupColor;
             },
-            getGroupVisibility: function(){
+            getGroupVisibility: function() {
                 return this.groupProperties.groupVisibility;
+            },
+            getGroupMaxLimit: function() {
+                return this.groupProperties.groupMaxLimit;
             },
             treatTweetData: function() {
 
@@ -185,16 +197,16 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.changeVelocity(velocity);
             },
             /*
-            * AtomUI 
-            */
+             * AtomUI 
+             */
             createLayer2D: function() {
                 var img = this.tweetData.user.profile_image_url.replace('normal', 'bigger');
                 var dataUI = {
-                    userName : '',
-                    img : img,
-                    text : this.tweetData.text,
-                    entities : this.tweetData.entities,
-                }  
+                    userName: '',
+                    img: img,
+                    text: this.tweetData.text,
+                    entities: this.tweetData.entities,
+                }
                 this.atomUI.createUI(dataUI);
             },
             _updateLayer2DPosition: function() {
@@ -202,39 +214,47 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 this.atomUI.setPosition(position);
             },
             removeLayer2D: function() {
-                    this.atomUI.deleteUI();
+                this.atomUI.deleteUI();
             },
             /*
-            * Highlight 
-            */
-            highlightEnter: function(){
+             * Highlight 
+             */
+            highlightEnter: function() {
                 //scale up atom
                 var newScale = this._computeTweetScale() * 1.5;
                 var start = this.objectAvatar.scale;
-                var end = {x : newScale, y : newScale, z : newScale}
+                var end = {
+                    x: newScale,
+                    y: newScale,
+                    z: newScale
+                }
                 Animation.createAnimation(start, end, 500, 'Elastic.Out');
-                
+
                 this.createLayer2D();
                 this.createHighlightAvatar();
-                
+
                 this.highlighted = true;
             },
-            highlightExit: function(){
+            highlightExit: function() {
                 //scale atom this original size
                 var newScale = this._computeTweetScale();
                 var start = this.objectAvatar.scale;
-                var end = {x : newScale, y : newScale, z : newScale}
+                var end = {
+                    x: newScale,
+                    y: newScale,
+                    z: newScale
+                }
                 Animation.createAnimation(start, end, 500, 'Elastic.Out');
-                
+
                 this.removeLayer2D();
                 this.deleteHighlightAvatar();
-                
+
                 this.highlighted = false;
             },
-            isHighlighted: function(){
+            isHighlighted: function() {
                 return this.highlighted;
             },
-            createHighlightAvatar: function(){
+            createHighlightAvatar: function() {
                 var AvatarScale = 1.5;
                 var map = THREE.ImageUtils.loadTexture("../img/highlight.png");
                 var material = new THREE.SpriteMaterial({
@@ -244,18 +264,18 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                 });
                 this.objectAvatarHighlight = new THREE.Sprite(material);
                 this.objectAvatar.add(this.objectAvatarHighlight);
-                this.objectAvatarHighlight.scale.set(AvatarScale,AvatarScale,AvatarScale);
+                this.objectAvatarHighlight.scale.set(AvatarScale, AvatarScale, AvatarScale);
             },
-            deleteHighlightAvatar: function(){
+            deleteHighlightAvatar: function() {
                 this.objectAvatar.remove(this.objectAvatarHighlight);
                 this.objectAvatarHighlight = null;
             },
-            renderUpdateHighlightAvatar: function(){
-                this.objectAvatarHighlight.material.rotation -=.02;
+            renderUpdateHighlightAvatar: function() {
+                this.objectAvatarHighlight.material.rotation -= .02;
             },
             /*
-            * Interactions
-            */
+             * Interactions
+             */
             addMouseInteraction: function() {
                 Utilities.createEventOn3DObject(this.objectAvatar, 'mouseover', function(req) {
                     var atom = AtomManager.getAtomBy3DObject(req.target);
@@ -270,7 +290,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                     console.log(atom.tweetData);
                 });
             },
-            removeMouseInteraction:function(){
+            removeMouseInteraction: function() {
                 Utilities.removeEventOn3DObject(this.objectAvatar, 'mouseover');
                 Utilities.removeEventOn3DObject(this.objectAvatar, 'mouseout');
                 Utilities.removeEventOn3DObject(this.objectAvatar, 'click');

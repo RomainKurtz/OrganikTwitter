@@ -1,5 +1,5 @@
-define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/AtomManager', 'colorPicker', "Organik/ServerMessageManager"],
-    function(template, Utilities, AtomManager, colorPicker, ServerMessageManager) {
+define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/AtomManager', 'colorPicker', "Organik/ServerMessageManager", "Organik/Animation"],
+    function(template, Utilities, AtomManager, colorPicker, ServerMessageManager, Animation) {
         // start method
         function UIGroup(groupName, UIManager) {
             this.groupName = groupName;
@@ -89,13 +89,51 @@ define("UI/UIGroup", ['hbs!UI/templates/group', 'Organik/Utilities', 'Organik/At
                     this.colorIcon(colorpicker.val());
                 }.bind(this));
 
+                //Input Limit//
+                //Input
+                var inputLimit = $('#inputLimit-' + this.id);
+                inputLimit.on('input', function() {
+                    var groupLimit = AtomManager.getGroupParameterByName(this.groupName, 'maxLimit');
+                    if (groupLimit === inputLimit.val() || (groupLimit === undefined && inputLimit.val() === '')) {
+                        buttonLimit.css('opacity', '0');
+                        Animation.setTimeout(function() {
+                            buttonLimit.css('visibility', 'hidden');
+                        }.bind(this), 300);
+                        // animate opacity and display none
+                    } else {
+                        buttonLimit.css('visibility', 'visible');
+                        buttonLimit.css('opacity', '1');
+
+                    }
+                }.bind(this));
+                //Button
+                var buttonLimit = $('#buttonLimit-' + this.id);
+                buttonLimit.click(function() {
+                    var inputValue = inputLimit.val();
+                    if (inputValue === '0') { // If user enter '0' : it's like 'no limit';
+                        inputLimit.val('');
+                    } else if (inputValue === '') { // If user inter nothing it's interpreted by 'no limit'
+                        AtomManager.setGroupMaxLimit(this.groupName, undefined);
+                    } else {
+                        AtomManager.setGroupMaxLimit(this.groupName, inputLimit.val());
+                    }
+                    buttonLimit.css('opacity', '0');
+                    Animation.setTimeout(function() {
+                        buttonLimit.css('visibility', 'hidden');
+                    }.bind(this), 300);
+                    this.updateUI();
+                }.bind(this));
+                //add class disabled when is not ok
+
                 //Switch Unsubscribe//
                 var liveSubscriberSwitch = $('#liveSubscriberSwitch-' + this.id);
                 liveSubscriberSwitch.change(function() {
                     if (liveSubscriberSwitch.is(':checked')) {
                         ServerMessageManager.subscribeStreamingTweet(this.groupName);
+                        this.UIManager.createNotification('Live acquisition enable');
                     } else {
                         ServerMessageManager.unsubscribeStreamingTweet(this.groupName);
+                        this.UIManager.createNotification('Live acquisition stopped');
                     }
                 }.bind(this));
 

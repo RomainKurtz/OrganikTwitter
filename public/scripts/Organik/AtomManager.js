@@ -24,7 +24,6 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
             },
             addAtom: function(atom) {
                 this.atomList.push(atom);
-                //LinkManager.updateLinksTable(this.atomList);
             },
             removeAtom: function(atom) {
                 var i = this.atomList.indexOf(atom);
@@ -85,6 +84,11 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 var olderAtom = group[0];
                 atom.setGroupProperty('groupColor', olderAtom.getGroupColor());
                 atom.setGroupProperty('groupVisibility', olderAtom.getGroupVisibility());
+                atom.setGroupProperty('groupMaxLimit', olderAtom.getGroupMaxLimit());
+                
+                if(group.length > olderAtom.getGroupMaxLimit()){
+                    this.removeAtom(olderAtom);
+                }
             },
             setGroupVisibility: function(groupName, visible){
                 var group = this.getAtomsbyGroupName(groupName);
@@ -97,6 +101,30 @@ define("Organik/AtomManager", ["three", "Organik/RenderManager", "Organik/SceneM
                 for(var i = 0; i < group.length; i++) {
                     group[i].setGroupProperty('groupColor', color);
                 }
+            },
+            setGroupMaxLimit: function(groupName, numberMax){
+                var group = this.getAtomsbyGroupName(groupName);
+                for(var i = 0; i < group.length; i++) {
+                    group[i].setGroupProperty('groupMaxLimit', numberMax);
+                }
+                //delete the olders atoms if the group is full
+                for(var i = 0; this.getAtomsbyGroupName(groupName).length > numberMax ; i++){
+                    this.removeAtom(group[i]);
+                }
+            },
+            getGroupParameterByName: function(groupName, parameter){
+                var group = this.getAtomsbyGroupName(groupName);
+                var olderAtom = group[0];
+                if(parameter === 'maxLimit'){
+                    return olderAtom.getGroupMaxLimit();
+                }
+                if(parameter === 'color'){
+                    return olderAtom.getGroupColor();
+                }
+                if(parameter === 'visibility'){
+                    return olderAtom.getGroupVisibility();
+                }
+                
             },
             changeGroupParameter: function(group,parameter,value){
                 for(var i = 0; i < group.length; i++) {

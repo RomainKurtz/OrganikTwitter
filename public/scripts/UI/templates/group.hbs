@@ -8,10 +8,12 @@
     <p class="titreGroup" id="titre-{{id}}">{{numberOfPlanets}} PLANETS</p>
         <div class="modal-cotnent">
 
+            <!-- switch display -->
             <div class="switch">
                 <label>Hide <input id="displaySwitch-{{id}}" type="checkbox" checked><span class="lever"></span> Show</label>
             </div>
 
+            <!-- color picker -->
             <div class="switch">
                 <label>Auto <input id="colorPickerSwitch-{{id}}" type="checkbox"><span class="lever"></span> Color</label>
             </div>
@@ -29,10 +31,28 @@
                   <option value="#339DFF">Light Blue</option>
                 </select>
             </div>
+            <!-- end of color picker -->
+            
+            <!-- switch live subscriber -->
             <div class="switch">
                 <label> Stop <input id="liveSubscriberSwitch-{{id}}" type="checkbox" checked><span class="lever"></span> Live</label>
             </div>
+
+            <!-- limit -->
+              <div>
+                <div class="divLimit">
+                  <!-- input -->
+                  <input id="inputLimit-{{id}}" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="inputLimit">
+                  <!-- button -->
+                  <a id="buttonLimit-{{id}}" class="waves-effect waves-light btn buttonLimit">ok</a>
+              </div>
+            </div>
+            <!-- end of limit -->
+
+            <!-- reset button -->
             <a id="buttonReset-{{id}}"class="waves-effect waves-teal btn-flat redFont"><i class="material-icons left">settings_backup_restore</i>Reset</a>
+
+            <!-- delete button -->
             <a id="buttonDelete-{{id}}"class="waves-effect waves-teal btn-flat redFont"><i class="material-icons left">delete</i>Delete</a>
 
         </div>
