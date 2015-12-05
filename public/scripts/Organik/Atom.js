@@ -59,7 +59,7 @@ define("Organik/Atom", ["three", "Organik/AtomManager", "Organik/Utilities", "Or
                         y: newScale,
                         z: newScale
                     }
-                    Animation.createAnimation(start, end, 2000, 'Elastic.Out');
+                    Animation.createAnimation(start, end, 500, 'Elastic.Out');
                 } else {
                     this.objectAvatar.scale.x = scale;
                     this.objectAvatar.scale.y = scale;

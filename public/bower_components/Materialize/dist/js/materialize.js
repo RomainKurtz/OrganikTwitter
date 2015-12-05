@@ -2679,7 +2679,7 @@ $(document).ready(function(){
 
     $(document).on('input mousedown touchstart', range_type, function(e) {
       var thumb = $(this).siblings('.thumb');
-
+			/* Romain : I comment this because I have a bug with this thing and i don't need the 'thumb', good luck.
       // If thumb indicator does not exist yet, create it
       if (thumb.length <= 0) {
         thumb = $('<span class="thumb"><span class="value"></span></span>');
@@ -2713,7 +2713,7 @@ $(document).ready(function(){
       thumb.addClass('active').css('left', left);
       thumb.find('.value').html($(this).val());
 
-
+		*/
     });
 
     $(document).on('mouseup touchend', range_wrapper, function() {
