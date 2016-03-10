@@ -12,7 +12,7 @@ https://www.youtube.com/watch?v=ZSWJoh6DNUY
 
 #Features
 You can request :
-- # Hachtag
+- # Hashtag
 - @ User
 - Sentence
 
